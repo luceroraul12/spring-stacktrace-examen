@@ -1,4 +1,9 @@
 package luceroraul.stacktrace.examen.entities;
 
-public class MonedaCripto {
+import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+public class MonedaCripto extends Moneda{
 }

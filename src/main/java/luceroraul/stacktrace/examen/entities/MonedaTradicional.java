@@ -1,4 +1,7 @@
 package luceroraul.stacktrace.examen.entities;
 
-public class MonedaTradicional {
+import jakarta.persistence.Entity;
+
+@Entity
+public class MonedaTradicional extends Moneda {
 }

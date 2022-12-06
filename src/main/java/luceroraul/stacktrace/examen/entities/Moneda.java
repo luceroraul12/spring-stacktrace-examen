@@ -9,5 +9,5 @@ import lombok.Setter;
 @MappedSuperclass
 public abstract class Moneda extends Identificable{
     private String nombre;
-    private Double equivalenciaDolar;
+    private Double relacionDolar;
 }

@@ -1,6 +1,7 @@
 package luceroraul.stacktrace.examen.entities;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -13,7 +14,6 @@ import java.util.List;
 @Setter
 @Entity
 public class Sexo extends Identificable {
+    @Column(name = "nombre")
     private String nombre;
-    @OneToMany(mappedBy = "sexo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Usuario> usuarios = new ArrayList<>();
 }

@@ -30,4 +30,8 @@ public class Usuario extends Identificable {
     private String email;
     @Column(name = "telefono")
     private String telefono;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Billetera> billeteras = new ArrayList<>();
+
 }

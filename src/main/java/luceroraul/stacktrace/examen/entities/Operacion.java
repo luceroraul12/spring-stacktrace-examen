@@ -3,7 +3,6 @@ package luceroraul.stacktrace.examen.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import luceroraul.stacktrace.examen.enums.TipoOperacion;
 
 import java.time.LocalDateTime;
 
@@ -13,8 +12,10 @@ import java.time.LocalDateTime;
 public class Operacion extends Identificable {
     @Column(name = "momento_operacion")
     private LocalDateTime momentoOperacion;
-    @Column(name = "tipo_operacion")
-    private TipoOperacion tipoOperacion;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "operacion_tipo_id")
+    private OperacionTipo operacionTipo;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "billetera_id")
@@ -27,5 +28,4 @@ public class Operacion extends Identificable {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "moneda_cripto_destino_id")
     private MonedaCripto monedaCriptoDestino;
-
 }

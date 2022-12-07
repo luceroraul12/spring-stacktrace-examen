@@ -23,7 +23,7 @@ public class Usuario extends Identificable {
     private List<String> nombres = new ArrayList<>();
     @ElementCollection
     @Column(name = "apellido", length = 50)
-    @CollectionTable(name = "Usuario_apellidos", joinColumns = @JoinColumn(name = "owner_id"))
+    @CollectionTable(name = "usuario_apellidos", joinColumns = @JoinColumn(name = "owner_id"))
     private List<String> apellidos = new ArrayList<>();
 
     @Column(name = "email")

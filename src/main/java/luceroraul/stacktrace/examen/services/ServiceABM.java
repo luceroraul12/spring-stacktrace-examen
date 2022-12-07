@@ -10,7 +10,7 @@ public abstract class ServiceABM<Entidad extends Identificable> {
     @Autowired
     private JpaRepository<Entidad, Long> repository;
 
-    public ResponseEntity<Object> crear(Entidad elemento) throws Exception {
+    public ResponseEntity<Object> crear(Entidad elemento){
         ResponseEntity<Object> respuesta;
         Entidad elementoCreado = repository.save(elemento);
         if(!repository.existsById(elemento.getId())){

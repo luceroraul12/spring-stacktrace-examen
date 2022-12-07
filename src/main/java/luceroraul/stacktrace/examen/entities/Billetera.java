@@ -1,4 +1,7 @@
 package luceroraul.stacktrace.examen.entities;
 
-public class Billetera {
+import jakarta.persistence.Entity;
+
+@Entity
+public class Billetera extends Identificable{
 }

@@ -7,6 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @MappedSuperclass
+@NoArgsConstructor
 public abstract class Moneda extends Identificable{
     @Column(name = "nombre", unique = true)
     private String nombre;

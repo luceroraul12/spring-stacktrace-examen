@@ -12,12 +12,10 @@ import java.util.List;
 @Setter
 @Entity
 public class Billetera extends Identificable{
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    private Usuario  usuario;
 
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "billetera", orphanRemoval = true)
     private List<MonedaCriptoCantidadAdquirida> monedaCriptoCantidadAdquiridas = new ArrayList<>();
 

@@ -1,8 +1,6 @@
 package luceroraul.stacktrace.examen.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +9,7 @@ import lombok.Setter;
 @MappedSuperclass
 public abstract class Identificable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
-
 }

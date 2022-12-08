@@ -1,11 +1,12 @@
 package luceroraul.stacktrace.examen.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,4 +15,10 @@ public class Billetera extends Identificable{
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "billetera", orphanRemoval = true)
+    private List<MonedaCriptoCantidadAdquirida> monedaCriptoCantidadAdquiridas = new ArrayList<>();
+
 }

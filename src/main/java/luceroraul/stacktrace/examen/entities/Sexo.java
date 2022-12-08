@@ -14,6 +14,6 @@ import java.util.List;
 @Setter
 @Entity
 public class Sexo extends Identificable {
-    @Column(name = "nombre")
+    @Column(name = "nombre", unique = true)
     private String nombre;
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @Entity
 public class Usuario extends Identificable {
-    @Column(name = "dni")
+    @Column(name = "dni", unique = true)
     private Integer DNI;
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "sexo_id", nullable = false)

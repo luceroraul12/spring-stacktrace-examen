@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @Entity
 public class OperacionTipo extends Identificable{
-    @Column(name = "tipo")
+    @Column(name = "tipo", unique = true)
     private String tipo;
 }

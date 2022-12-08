@@ -13,7 +13,7 @@ import java.util.List;
 public class Usuario extends Identificable {
     @Column(name = "dni", unique = true)
     private Integer DNI;
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "sexo_id", nullable = false)
     private Sexo sexo;
 

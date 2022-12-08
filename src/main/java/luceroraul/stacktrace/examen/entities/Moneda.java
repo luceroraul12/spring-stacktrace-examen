@@ -2,8 +2,7 @@ package luceroraul.stacktrace.examen.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -13,4 +12,9 @@ public abstract class Moneda extends Identificable{
     private String nombre;
     @Column(name = "relacion_dolar")
     private Double relacionDolar;
+
+    public Moneda(String nombre, Double relacionDolar) {
+        this.nombre = nombre;
+        this.relacionDolar = relacionDolar;
+    }
 }

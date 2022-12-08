@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 
 public abstract class ServiceABM<Entidad extends Identificable> {
     @Autowired
-    private JpaRepository<Entidad, Long> repository;
+    protected JpaRepository<Entidad, Long> repository;
 
     public ResponseEntity<Object> crear(Entidad elemento){
         ResponseEntity<Object> respuesta;

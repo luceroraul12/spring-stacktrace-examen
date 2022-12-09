@@ -17,24 +17,12 @@ public class BilleteraService extends ServiceABM<Billetera>{
 
     private Billetera billeteraSeleccionada;
 
-//    @Override
-//    public ResponseEntity<Object> crear(Billetera elemento) {
-//        Billetera respuesta;
-//        billeteraSeleccionada = elemento;
-//
-//        List<MonedaCripto> monedasCriptoDisponibles = monedaCriptoRepository.findAll();
-//        List<MonedaCriptoCantidadAdquirida> valoresIniciales = monedasCriptoDisponibles.stream()
-//                .map(this::adaptarMonedaCripto)
-//                .toList();
-//
-//        elemento.setMonedaCriptoCantidadAdquiridas(valoresIniciales);
-//
-//        respuesta = repository.save(elemento);
-//
-//        return super.crear(respuesta);
-//    }
-
     private MonedaCriptoCantidadAdquirida adaptarMonedaCripto(MonedaCripto moneda){
         return new MonedaCriptoCantidadAdquirida(moneda, 0.0, billeteraSeleccionada);
+    }
+
+    @Override
+    protected Class<Billetera> recuperarClaseGenerica() {
+        return Billetera.class;
     }
 }

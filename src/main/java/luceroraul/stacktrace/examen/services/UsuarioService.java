@@ -5,4 +5,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UsuarioService extends ServiceABM<Usuario>{
+    @Override
+    protected Class<Usuario> recuperarClaseGenerica() {
+        return Usuario.class;
+    }
 }

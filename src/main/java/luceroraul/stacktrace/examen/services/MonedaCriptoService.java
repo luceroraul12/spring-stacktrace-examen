@@ -5,4 +5,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MonedaCriptoService extends ServiceABM<MonedaCripto>{
+    @Override
+    protected Class<MonedaCripto> recuperarClaseGenerica() {
+        return MonedaCripto.class;
+    }
 }

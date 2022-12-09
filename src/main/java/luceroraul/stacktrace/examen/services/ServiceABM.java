@@ -34,7 +34,7 @@ public abstract class ServiceABM<Entidad extends Identificable> {
     }
     public ResponseEntity<Object> eliminar(Entidad elemento){
         ResponseEntity<Object> respuesta;
-        String nombre = elemento.getClass().getName();
+        String nombre = elemento.getClass().getSimpleName();
         Long id = elemento.getId();;
         repository.deleteById(id);
         if (repository.existsById(id)){
@@ -52,7 +52,9 @@ public abstract class ServiceABM<Entidad extends Identificable> {
         Long id = Long.parseLong(String.valueOf(elementoParcial.get("id")));
 
         repository.existsById(id);
-        Entidad elementoAlmacenado = repository.findById(id).orElseThrow(Exception::new);
+        Entidad elementoAlmacenado = repository.findById(id).orElseThrow(() -> {
+            return new Exception("error al modifcar");
+        });
         Entidad elementoModificadoParaGuardar = convertidor.modificarEntidad(
                 elementoParcial,
                 elementoAlmacenado,

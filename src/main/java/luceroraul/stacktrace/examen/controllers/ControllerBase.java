@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Map;
+
 public abstract class ControllerBase<Entidad extends Identificable> {
 
     @Autowired
@@ -20,7 +22,7 @@ public abstract class ControllerBase<Entidad extends Identificable> {
     }
 
     @PatchMapping("modificar")
-    public ResponseEntity<Object> modificar(@RequestBody Entidad elemento){
+    public ResponseEntity<Object> modificar(@RequestBody Map<String,Object> elemento) throws Exception {
         return serviceABM.modificar(elemento);
     }
 

@@ -11,10 +11,7 @@ class BilleteraOperacionTest {
 
     @Test
     void depositar() {
-        MonedaCriptoOperacionPeticion peticion = new MonedaCriptoOperacionPeticion(
 
-        )
-        service.depositar()
     }
 
     @Test

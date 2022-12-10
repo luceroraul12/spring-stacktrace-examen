@@ -8,8 +8,8 @@ import lombok.Setter;
 public class PeticionIntercambio extends PeticionDeposito{
     private Long idActivoDestino;
 
-    public PeticionIntercambio(Long idActivoOrigen, Long idActivoDestino, Double cantidadOperable ) {
-        super(idActivoOrigen, cantidadOperable);
+    public PeticionIntercambio(Long idActivoOrigen, Long idActivoDestino, Double cantidadEnMonedaCriptoOrigen ) {
+        super(idActivoOrigen, cantidadEnMonedaCriptoOrigen);
         this.idActivoDestino = idActivoDestino;
     }
 }

@@ -29,4 +29,8 @@ public class BilleteraOperacionUtil {
     public boolean tieneMontoSuficiente(Activo activo, Double cantidad) {
         return activo.getCantidadAdquirida() >= cantidad;
     }
+
+    public boolean sonSobreMismaMonedaCripto(Activo activoOrigen, Activo activoDestino) {
+        return activoOrigen.getMonedaCripto().equals(activoDestino.getMonedaCripto());
+    }
 }

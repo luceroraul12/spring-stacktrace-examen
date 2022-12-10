@@ -28,7 +28,7 @@ public class BilleteraOperacionService {
         Double cantidad;
         idActivoOrigen = peticion.getIdActivoOrigen();
         cantidad = peticion.getCantidadOperable();
-        resultado = util.realizarIncremento(
+        resultado = util.realizarIncrementoMismaUnidad(
                 activoRepository.findById(idActivoOrigen).orElseThrow(),
                 cantidad);
         return resultado;
@@ -43,7 +43,7 @@ public class BilleteraOperacionService {
 
         if (util.tieneMontoSuficiente(activoOrigen,cantidad)){
             resultado.put("activoReducido", util.realizarReduccion(activoOrigen, cantidad));
-            resultado.put("activoIncrementado", util.realizarIncremento(activoDestino, cantidad));
+            resultado.put("activoIncrementado", util.realizarIncrementoMismaUnidad(activoDestino, cantidad));
 
             activoRepository.saveAll(Arrays.asList(activoOrigen, activoDestino));
         } else {

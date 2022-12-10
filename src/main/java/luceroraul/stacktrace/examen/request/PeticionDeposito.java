@@ -8,9 +8,7 @@ import luceroraul.stacktrace.examen.entities.OperacionTipo;
 @Getter
 @Setter
 @AllArgsConstructor
-public class MonedaCriptoOperacionPeticion {
+public class PeticionDeposito {
     private Long idActivoOrigen;
-    private Long idActivoDestino;
-    private OperacionTipo operacionTipo;
     private Double cantidadOperable;
 }

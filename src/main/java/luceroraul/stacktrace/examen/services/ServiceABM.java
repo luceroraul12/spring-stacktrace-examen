@@ -21,13 +21,13 @@ public abstract class ServiceABM<Entidad extends Identificable> {
 
     public ResponseEntity<Object> crear(Entidad elemento){
         ResponseEntity<Object> respuesta;
-        Entidad elementoCreado = repository.save(elemento);
+        elemento = repository.save(elemento);
         if(!repository.existsById(elemento.getId())){
             respuesta = new ResponseEntity<>(
                     "error al intentar crear: "+elemento.getClass().getName(),
                     HttpStatus.ACCEPTED);
         } else {
-            respuesta = new ResponseEntity<>(elementoCreado,HttpStatus.OK);
+            respuesta = new ResponseEntity<>(elemento,HttpStatus.OK);
         }
 
         return respuesta;

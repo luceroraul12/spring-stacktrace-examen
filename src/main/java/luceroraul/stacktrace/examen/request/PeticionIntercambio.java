@@ -7,7 +7,9 @@ import lombok.Setter;
 @Setter
 public class PeticionIntercambio extends PeticionDeposito{
     private Long idActivoDestino;
-    public PeticionIntercambio(Long idActivoOrigen, Double cantidadOperable) {
+
+    public PeticionIntercambio(Long idActivoOrigen, Long idActivoDestino, Double cantidadOperable ) {
         super(idActivoOrigen, cantidadOperable);
+        this.idActivoDestino = idActivoDestino;
     }
 }

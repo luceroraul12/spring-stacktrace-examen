@@ -12,7 +12,7 @@ public class BilleteraOperacionService {
 
     public Activo depositar(MonedaCriptoOperacionPeticion peticion){
         Activo resultado;
-        Activo divisaAlmacenada = activoRepository.findById(peticion.getIdMonedaCriptoCantidadAdquiridaDestino()).get();
+        Activo divisaAlmacenada = activoRepository.findById(peticion.getIdActivoDestino()).get();
 
         resultado = realizarDeposito(divisaAlmacenada,
                 peticion.getCantidadOperable());

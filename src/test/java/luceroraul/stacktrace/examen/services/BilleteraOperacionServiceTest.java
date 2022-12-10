@@ -55,31 +55,5 @@ class BilleteraOperacionServiceTest {
         assertEquals(exception.getMessage(), "fondo insuficiente en activo de origen");
     }
 
-    @Test
-    void realizarIncremento() throws Exception {
-//        PeticionDeposito peticion = new PeticionDeposito(
-//                20L,
-//                10L,
-//                null,
-//                10.0);
-        Activo original = new Activo(null, 20.5, null);
-        Activo resultado = service.realizarIncremento(original, 25.3);
 
-        assertEquals(45.8, resultado.getCantidadAdquirida());
-        assertNotEquals(30, resultado.getCantidadAdquirida());
-        assertNotEquals(3000, resultado.getCantidadAdquirida());
-
-    }
-
-    @Test
-    void tieneMontoSuficiente() {
-        Activo original = new Activo(null, 20.5, null);
-
-        boolean respuestaBuena = service.tieneMontoSuficiente(original,15.2);
-        boolean respuestaMala = service.tieneMontoSuficiente(original,300.2);
-        boolean respuestaLimite = service.tieneMontoSuficiente(original,20.5);
-        assertTrue(respuestaBuena);
-        assertTrue(respuestaLimite);
-        assertFalse(respuestaMala);
-    }
 }

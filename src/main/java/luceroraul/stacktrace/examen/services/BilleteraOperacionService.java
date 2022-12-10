@@ -1,9 +1,11 @@
 package luceroraul.stacktrace.examen.services;
 
 import luceroraul.stacktrace.examen.entities.Activo;
+import luceroraul.stacktrace.examen.entities.MonedaCripto;
 import luceroraul.stacktrace.examen.repositories.ActivoRepository;
 import luceroraul.stacktrace.examen.request.PeticionDeposito;
 import luceroraul.stacktrace.examen.request.PeticionIntercambio;
+import luceroraul.stacktrace.examen.util.BilleteraOperacionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +19,16 @@ public class BilleteraOperacionService {
     @Autowired
     ActivoRepository activoRepository;
 
+    @Autowired
+    BilleteraOperacionUtil util;
+
     public Activo depositar(PeticionDeposito peticion) throws Exception {
         Activo resultado;
         Long idActivoOrigen;
         Double cantidad;
         idActivoOrigen = peticion.getIdActivoOrigen();
         cantidad = peticion.getCantidadOperable();
-        resultado = realizarIncremento(
+        resultado = util.realizarIncremento(
                 activoRepository.findById(idActivoOrigen).orElseThrow(),
                 cantidad);
         return resultado;
@@ -36,9 +41,9 @@ public class BilleteraOperacionService {
         Activo activoDestino = activoRepository.findById(peticion.getIdActivoDestino()).orElseThrow();
         cantidad = peticion.getCantidadOperable();
 
-        if (tieneMontoSuficiente(activoOrigen,cantidad)){
-            resultado.put("activoReducido", realizarReduccion(activoOrigen, cantidad));
-            resultado.put("activoIncrementado", realizarIncremento(activoDestino, cantidad));
+        if (util.tieneMontoSuficiente(activoOrigen,cantidad)){
+            resultado.put("activoReducido", util.realizarReduccion(activoOrigen, cantidad));
+            resultado.put("activoIncrementado", util.realizarIncremento(activoDestino, cantidad));
 
             activoRepository.saveAll(Arrays.asList(activoOrigen, activoDestino));
         } else {
@@ -47,19 +52,7 @@ public class BilleteraOperacionService {
         return resultado;
     }
 
-    public Activo realizarIncremento(Activo activo, Double cantidad) {
-        activo.setCantidadAdquirida(activo.getCantidadAdquirida() + cantidad);
-        return activo;
-    }
 
-    public Activo realizarReduccion(Activo activo, Double cantidad) {
-        activo.setCantidadAdquirida(activo.getCantidadAdquirida() - cantidad);
-        return activo;
-    }
-
-    public boolean tieneMontoSuficiente(Activo activo, Double cantidad) {
-        return activo.getCantidadAdquirida() >= cantidad;
-    }
 
 
 }

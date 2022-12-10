@@ -29,7 +29,7 @@ public class BilleteraOperacionService {
         return resultado;
     }
 
-    public Map<String, Activo> intercambiar(PeticionIntercambio peticion){
+    public Map<String, Activo> intercambiar(PeticionIntercambio peticion) throws Exception {
         Map<String, Activo> resultado = new HashMap<>();
         Double cantidad;
         Activo activoOrigen = activoRepository.findById(peticion.getIdActivoOrigen()).orElseThrow();
@@ -37,10 +37,12 @@ public class BilleteraOperacionService {
         cantidad = peticion.getCantidadOperable();
 
         if (tieneMontoSuficiente(activoOrigen,cantidad)){
-            realizarDecremento(activoOrigen, cantidad);
-            realizarIncremento(activoOrigen, cantidad);
+            resultado.put("activoReducido", realizarReduccion(activoOrigen, cantidad));
+            resultado.put("activoIncrementado", realizarIncremento(activoDestino, cantidad));
 
             activoRepository.saveAll(Arrays.asList(activoOrigen, activoDestino));
+        } else {
+            throw new Exception("fondo insuficiente en activo de origen");
         }
         return resultado;
     }
@@ -50,7 +52,7 @@ public class BilleteraOperacionService {
         return activo;
     }
 
-    public Activo realizarDecremento(Activo activo, Double cantidad) {
+    public Activo realizarReduccion(Activo activo, Double cantidad) {
         activo.setCantidadAdquirida(activo.getCantidadAdquirida() - cantidad);
         return activo;
     }

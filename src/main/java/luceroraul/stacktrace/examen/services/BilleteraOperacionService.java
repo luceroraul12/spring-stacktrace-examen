@@ -1,7 +1,6 @@
 package luceroraul.stacktrace.examen.services;
 
 import luceroraul.stacktrace.examen.entities.Activo;
-import luceroraul.stacktrace.examen.entities.MonedaCripto;
 import luceroraul.stacktrace.examen.repositories.ActivoRepository;
 import luceroraul.stacktrace.examen.request.PeticionDeposito;
 import luceroraul.stacktrace.examen.request.PeticionIntercambio;
@@ -43,16 +42,16 @@ public class BilleteraOperacionService {
 
         if (util.tieneMontoSuficiente(activoOrigen,cantidad)){
             resultado.put("activoReducido", util.realizarReduccion(activoOrigen, cantidad));
-            resultado.put("activoIncrementado", util.realizarIncrementoMismaUnidad(activoDestino, cantidad));
-
+            if (util.sonSobreMismaMonedaCripto(activoOrigen, activoDestino)){
+                resultado.put("activoIncrementado", util.realizarIncrementoMismaUnidad(activoDestino, cantidad));
+            } else {
+                resultado.put("activoIncrementado", util.realizarIncrementoDiferentesUnidades(
+                        activoOrigen,activoDestino, cantidad));
+            }
             activoRepository.saveAll(Arrays.asList(activoOrigen, activoDestino));
         } else {
             throw new Exception("fondo insuficiente en activo de origen");
         }
         return resultado;
     }
-
-
-
-
 }

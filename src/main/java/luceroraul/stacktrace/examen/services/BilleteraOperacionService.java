@@ -1,26 +1,26 @@
 package luceroraul.stacktrace.examen.services;
 
-import luceroraul.stacktrace.examen.entities.MonedaCriptoCantidadAdquirida;
-import luceroraul.stacktrace.examen.repositories.MonedaCriptoCantidadAdquiridaRepository;
+import luceroraul.stacktrace.examen.entities.Activo;
+import luceroraul.stacktrace.examen.repositories.ActivoRepository;
 import luceroraul.stacktrace.examen.request.MonedaCriptoOperacionPeticion;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class BilleteraOperacionService {
 
     @Autowired
-    MonedaCriptoCantidadAdquiridaRepository monedaCriptoCantidadAdquiridaRepository;
+    ActivoRepository activoRepository;
 
-    public MonedaCriptoCantidadAdquirida depositar(MonedaCriptoOperacionPeticion peticion){
-        MonedaCriptoCantidadAdquirida resultado;
-        MonedaCriptoCantidadAdquirida divisaAlmacenada = monedaCriptoCantidadAdquiridaRepository.findById(peticion.getIdMonedaCriptoCantidadAdquiridaDestino()).get();
+    public Activo depositar(MonedaCriptoOperacionPeticion peticion){
+        Activo resultado;
+        Activo divisaAlmacenada = activoRepository.findById(peticion.getIdMonedaCriptoCantidadAdquiridaDestino()).get();
 
         resultado = realizarDeposito(divisaAlmacenada,
                 peticion.getCantidadOperable());
         return resultado;
     }
 
-    public MonedaCriptoCantidadAdquirida realizarDeposito(
-            MonedaCriptoCantidadAdquirida divisaDestino,
+    public Activo realizarDeposito(
+            Activo divisaDestino,
             Double cantidadOperable) {
             divisaDestino.setCantidadAdquirida(
                     divisaDestino.getCantidadAdquirida() + cantidadOperable

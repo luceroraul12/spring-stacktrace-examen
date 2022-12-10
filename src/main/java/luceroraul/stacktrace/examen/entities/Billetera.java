@@ -20,5 +20,5 @@ public class Billetera extends Identificable{
 
 
     @OneToMany(mappedBy = "billetera", orphanRemoval = true)
-    private List<MonedaCriptoCantidadAdquirida> monedaCriptoCantidadAdquiridas = new ArrayList<>();
+    private List<Activo> activos = new ArrayList<>();
 }

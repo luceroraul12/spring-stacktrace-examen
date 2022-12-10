@@ -1,13 +1,13 @@
 package luceroraul.stacktrace.examen.services;
 
-import luceroraul.stacktrace.examen.entities.MonedaCriptoCantidadAdquirida;
+import luceroraul.stacktrace.examen.entities.Activo;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MonedaCriptoCantidadAdquiridaService extends ServiceABM<MonedaCriptoCantidadAdquirida>{
+public class MonedaCriptoCantidadAdquiridaService extends ServiceABM<Activo>{
     @Override
-    protected Class<MonedaCriptoCantidadAdquirida> recuperarClaseGenerica() {
-        return MonedaCriptoCantidadAdquirida.class;
+    protected Class<Activo> recuperarClaseGenerica() {
+        return Activo.class;
     }
 
 

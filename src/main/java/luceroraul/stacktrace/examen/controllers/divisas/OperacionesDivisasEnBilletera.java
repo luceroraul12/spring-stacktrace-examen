@@ -1,6 +1,5 @@
 package luceroraul.stacktrace.examen.controllers.divisas;
 
-import luceroraul.stacktrace.examen.entities.MonedaCriptoCantidadAdquirida;
 import luceroraul.stacktrace.examen.request.MonedaCriptoOperacionPeticion;
 import org.springframework.http.ResponseEntity;
 

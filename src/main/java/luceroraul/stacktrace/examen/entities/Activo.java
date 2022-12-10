@@ -8,7 +8,7 @@ import lombok.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class MonedaCriptoCantidadAdquirida extends Identificable{
+public class Activo extends Identificable{
     @OneToOne
     @JoinColumn(name = "moneda_cripto_id", unique = true)
     private MonedaCripto monedaCripto;

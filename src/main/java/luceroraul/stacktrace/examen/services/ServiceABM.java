@@ -51,7 +51,7 @@ public abstract class ServiceABM<Entidad extends Identificable> {
         ResponseEntity<Object> respuesta;
         Long id = Long.parseLong(String.valueOf(elementoParcial.get("id")));
 
-        repository.existsById(id);
+//        repository.existsById(id);
         Entidad elementoAlmacenado = repository.findById(id).orElseThrow(() -> {
             return new Exception("error al modifcar");
         });

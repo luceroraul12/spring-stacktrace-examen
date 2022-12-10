@@ -48,9 +48,11 @@ class BilleteraOperacionServiceTest {
 
     @Test
     void tieneMontoSuficiente() {
-        boolean respuestaBuena = service.tieneMontoSuficiente(20L,15.2);
-        boolean respuestaMala = service.tieneMontoSuficiente(20L,300.2);
-        boolean respuestaLimite = service.tieneMontoSuficiente(20L,25.3);
+        Activo original = new Activo(null, 20.5, null);
+
+        boolean respuestaBuena = service.tieneMontoSuficiente(original,15.2);
+        boolean respuestaMala = service.tieneMontoSuficiente(original,300.2);
+        boolean respuestaLimite = service.tieneMontoSuficiente(original,20.5);
         assertTrue(respuestaBuena);
         assertTrue(respuestaLimite);
         assertFalse(respuestaMala);

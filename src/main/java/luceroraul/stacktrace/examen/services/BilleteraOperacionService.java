@@ -7,6 +7,8 @@ import luceroraul.stacktrace.examen.request.PeticionIntercambio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -28,14 +30,18 @@ public class BilleteraOperacionService {
     }
 
     public Map<String, Activo> intercambiar(PeticionIntercambio peticion){
-        Activo resultado;
-        Long idActivoOrigen;
+        Map<String, Activo> resultado = new HashMap<>();
         Double cantidad;
-        idActivoOrigen = peticion.getIdActivoOrigen();
+        Activo activoOrigen = activoRepository.findById(peticion.getIdActivoOrigen()).orElseThrow();
+        Activo activoDestino = activoRepository.findById(peticion.getIdActivoDestino()).orElseThrow();
         cantidad = peticion.getCantidadOperable();
-        resultado = realizarIncremento(
-                activoRepository.findById(idActivoOrigen).orElseThrow(),
-                cantidad);
+
+        if (tieneMontoSuficiente(activoOrigen,cantidad)){
+            realizarDecremento(activoOrigen, cantidad);
+            realizarIncremento(activoOrigen, cantidad);
+
+            activoRepository.saveAll(Arrays.asList(activoOrigen, activoDestino));
+        }
         return resultado;
     }
 
@@ -49,8 +55,7 @@ public class BilleteraOperacionService {
         return activo;
     }
 
-    public boolean tieneMontoSuficiente(Long idActivoOrigen, Double cantidad) {
-        Activo activo = activoRepository.findById(idActivoOrigen).orElseThrow();
+    public boolean tieneMontoSuficiente(Activo activo, Double cantidad) {
         return activo.getCantidadAdquirida() >= cantidad;
     }
 

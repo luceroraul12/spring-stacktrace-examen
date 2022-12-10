@@ -12,8 +12,6 @@ import java.util.List;
 @Setter
 @Entity
 public class Billetera extends Identificable{
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
     @ManyToOne(optional = false)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;

@@ -31,7 +31,7 @@ public class Usuario extends Identificable {
     @Column(name = "telefono")
     private String telefono;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "usuario", orphanRemoval = true)
     private List<Billetera> billeteras = new ArrayList<>();
 
 }

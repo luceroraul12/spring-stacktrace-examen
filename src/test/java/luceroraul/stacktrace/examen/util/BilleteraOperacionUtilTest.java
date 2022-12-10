@@ -50,6 +50,20 @@ class BilleteraOperacionUtilTest {
                 activoDestino,
                 1.0);
         assertEquals(10.66, resultado.getCantidadAdquirida(), 0.01);
+    }
 
+    @Test
+    void verificarMonedasDeActivos(){
+        MonedaCripto monedaOrigen = new MonedaCripto("mOrigen", 20.0);
+        MonedaCripto monedaDestino = new MonedaCripto("mDestino", 30.0);
+        Activo activoOrigen = new Activo(monedaOrigen, 10.0, null);
+        Activo activoDestino = new Activo(monedaDestino, 10.0, null);
+
+        boolean resultado = util.sonSobreMismaMonedaCripto(activoOrigen,activoDestino);
+        assertFalse(resultado);
+
+        activoDestino = new Activo(monedaOrigen, 10.0, null);
+        resultado = util.sonSobreMismaMonedaCripto(activoOrigen, activoDestino);
+        assertTrue(resultado);
     }
 }

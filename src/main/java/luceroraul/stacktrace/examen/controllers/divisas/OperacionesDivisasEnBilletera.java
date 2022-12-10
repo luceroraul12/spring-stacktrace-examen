@@ -1,10 +1,10 @@
 package luceroraul.stacktrace.examen.controllers.divisas;
 
-import luceroraul.stacktrace.examen.request.MonedaCriptoOperacionPeticion;
+import luceroraul.stacktrace.examen.request.PeticionDeposito;
 import org.springframework.http.ResponseEntity;
 
 public interface OperacionesDivisasEnBilletera {
 
-    ResponseEntity<Object> depositarCantidad(MonedaCriptoOperacionPeticion peticion);
-    ResponseEntity<Object> intercambiarCantidad(MonedaCriptoOperacionPeticion Peticion);
+    ResponseEntity<Object> depositarCantidad(PeticionDeposito peticion);
+    ResponseEntity<Object> intercambiarCantidad(PeticionDeposito Peticion);
 }

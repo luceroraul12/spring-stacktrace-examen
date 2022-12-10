@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 public class MonedaCriptoCantidadAdquirida extends Identificable{
     @OneToOne
-    @JoinColumn(name = "moneda_cripto_id")
+    @JoinColumn(name = "moneda_cripto_id", unique = true)
     private MonedaCripto monedaCripto;
     @Column(name = "cantidad_adquirida")
     private Double cantidadAdquirida ;

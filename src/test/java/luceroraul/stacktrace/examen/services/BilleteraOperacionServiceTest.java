@@ -1,6 +1,7 @@
 package luceroraul.stacktrace.examen.services;
 
 import luceroraul.stacktrace.examen.entities.Activo;
+import luceroraul.stacktrace.examen.entities.MonedaCripto;
 import luceroraul.stacktrace.examen.repositories.ActivoRepository;
 import luceroraul.stacktrace.examen.request.PeticionIntercambio;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,15 +29,19 @@ class BilleteraOperacionServiceTest {
     @BeforeEach
     void before(){
         MockitoAnnotations.openMocks(this);
-        Mockito.when(repository.findById(20L)).thenReturn(Optional.of(new Activo(null, 25.3, null)));
-        Mockito.when(repository.findById(10L)).thenReturn(Optional.of(new Activo(null, 15.0, null)));
+        MonedaCripto monedaOrigen = new MonedaCripto("origen", 20.0);
+        MonedaCripto monedaDestino = new MonedaCripto("destino", 30.0);
+
+        Mockito.when(repository.findById(20L)).thenReturn(Optional.of(new Activo(monedaOrigen, 25.3, null)));
+        Mockito.when(repository.findById(10L)).thenReturn(Optional.of(new Activo(monedaDestino, 15.0, null)));
+        Mockito.when(repository.findById(5L)).thenReturn(Optional.of(new Activo(monedaOrigen, 15.0, null)));
     }
 
     @Test
-    void intercambiar() throws Exception {
+    void intercambiarMismaMonedaOrgenDestino() throws Exception {
         Map<String, Activo> resultado = service.intercambiar(new PeticionIntercambio(
                 20L,
-                10L,
+                5L,
                 20.0));
         Activo origen = resultado.get("activoReducido");
         Activo destino = resultado.get("activoIncrementado");
@@ -46,9 +51,21 @@ class BilleteraOperacionServiceTest {
     }
 
     @Test
+    void intercambiarDiferentesMonedas() throws Exception {
+        Map<String, Activo> resultado = service.intercambiar(new PeticionIntercambio(
+                20L,
+                10L,
+                20.0));
+        Activo origen = resultado.get("activoReducido");
+        Activo destino = resultado.get("activoIncrementado");
+        assertEquals(5.3, origen.getCantidadAdquirida(),0.001);
+        assertEquals(28.33, destino.getCantidadAdquirida(), 0.01);
+    }
+
+    @Test
     void intercambiarThrow(){
         Exception exception = assertThrows(Exception.class, () -> service.intercambiar(new PeticionIntercambio(
-                10L,
+                5L,
                 20L,
                 20.0)));
 

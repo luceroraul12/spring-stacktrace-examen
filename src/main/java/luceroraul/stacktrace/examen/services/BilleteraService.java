@@ -1,9 +1,12 @@
 package luceroraul.stacktrace.examen.services;
 
 import luceroraul.stacktrace.examen.entities.Billetera;
+import luceroraul.stacktrace.examen.entities.BilleteraDto;
 import luceroraul.stacktrace.examen.entities.MonedaCripto;
 import luceroraul.stacktrace.examen.entities.Activo;
+import luceroraul.stacktrace.examen.repositories.BilleteraRepository;
 import luceroraul.stacktrace.examen.repositories.MonedaCriptoRepository;
+import luceroraul.stacktrace.examen.util.BilleteraUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +15,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class BilleteraService extends ServiceABM<Billetera>{
     @Autowired
-    MonedaCriptoRepository monedaCriptoRepository;
+    BilleteraUtil billeteraUtil;
+    @Autowired
+    BilleteraRepository billeteraRepository;
 
     private Billetera billeteraSeleccionada;
 
@@ -21,12 +26,11 @@ public class BilleteraService extends ServiceABM<Billetera>{
         return Billetera.class;
     }
 
-    public ResponseEntity<Billetera> consultar(Long id) {
-        ResponseEntity<Billetera> respuesta;
-        Billetera billeteraEncontrada = repository.findById(id).get();
-        respuesta = billeteraEncontrada == null
-                ? new ResponseEntity<>(new Billetera(), HttpStatus.ACCEPTED)
-                : new ResponseEntity<>(billeteraEncontrada, HttpStatus.OK);
+    public ResponseEntity<BilleteraDto> consultar(Long id) {
+        BilleteraDto billeteraDto = billeteraUtil.convertirBilleteraaDTO(billeteraRepository.findById(1L).get());
+
+        ResponseEntity<BilleteraDto> respuesta;
+        respuesta = new ResponseEntity<>(billeteraDto, HttpStatus.OK);
         return respuesta;
     }
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -19,6 +20,11 @@ public class BilleteraController extends ControllerBase<Billetera>{
 
     @GetMapping("consulta")
     public ResponseEntity<BilleteraDto> consultar(@RequestBody Map<String,Object> pedido){
-        return billeteraService.consultar(Long.valueOf(String.valueOf(pedido.get("id"))));
+        return billeteraService.consultarBilleteraUnica(Long.valueOf(String.valueOf(pedido.get("id"))));
+    }
+
+    @GetMapping("consulta-usuario")
+    public ResponseEntity<List<BilleteraDto>> consultarPorIdUsuario(@RequestBody Map<String, Object> pedido){
+        return billeteraService.consultarBilleterasPorUsuario(Long.parseLong(String.valueOf(pedido.get("id"))));
     }
 }

@@ -1,7 +1,9 @@
 package luceroraul.stacktrace.examen.services;
 
 import luceroraul.stacktrace.examen.entities.Activo;
+import luceroraul.stacktrace.examen.entities.Operacion;
 import luceroraul.stacktrace.examen.repositories.ActivoRepository;
+import luceroraul.stacktrace.examen.repositories.OperacionRepository;
 import luceroraul.stacktrace.examen.request.PeticionDeposito;
 import luceroraul.stacktrace.examen.request.PeticionIntercambio;
 import luceroraul.stacktrace.examen.util.BilleteraOperacionUtil;
@@ -19,25 +21,39 @@ public class BilleteraOperacionService {
     ActivoRepository activoRepository;
 
     @Autowired
+    OperacionRepository operacionRepository;
+
+    @Autowired
     BilleteraOperacionUtil util;
 
     public Activo depositar(PeticionDeposito peticion) throws Exception {
         Activo resultado;
         Long idActivoOrigen;
         Double cantidad;
-        idActivoOrigen = peticion.getIdActivoOrigen();
+        Operacion operacion;
+        idActivoOrigen = peticion.getIdActivoDestino();
         cantidad = peticion.getCantidadOperable();
         resultado = util.realizarIncrementoMismaUnidad(
                 activoRepository.findById(idActivoOrigen).orElseThrow(),
                 cantidad);
+
+        operacion = new Operacion(
+
+        );
+        activoRepository.save(resultado);
+
         return resultado;
     }
 
     public Map<String, Activo> intercambiar(PeticionIntercambio peticion) throws Exception {
         Map<String, Activo> resultado = new HashMap<>();
         Double cantidad;
-        Activo activoOrigen = activoRepository.findById(peticion.getIdActivoOrigen()).orElseThrow();
-        Activo activoDestino = activoRepository.findById(peticion.getIdActivoDestino()).orElseThrow();
+        Activo activoOrigen = activoRepository.findById(peticion.getIdActivoOrigen()).orElseThrow(()->{
+            return new Exception("activo de origen erroneo");
+        });
+        Activo activoDestino = activoRepository.findById(peticion.getIdActivoDestino()).orElseThrow(() ->{
+            return new Exception("activo de destino erroneo");
+        });
         cantidad = peticion.getCantidadOperable();
 
         if (util.tieneMontoSuficiente(activoOrigen,cantidad)){
@@ -48,7 +64,7 @@ public class BilleteraOperacionService {
                 resultado.put("activoIncrementado", util.realizarIncrementoDiferentesUnidades(
                         activoOrigen,activoDestino, cantidad));
             }
-            activoRepository.saveAll(Arrays.asList(activoOrigen, activoDestino));
+            resultado.forEach((key,data) -> activoRepository.save(data));
         } else {
             throw new Exception("fondo insuficiente en activo de origen");
         }

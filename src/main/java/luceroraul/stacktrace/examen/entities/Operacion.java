@@ -1,20 +1,23 @@
 package luceroraul.stacktrace.examen.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Operacion extends Identificable {
     @Column(name = "momento_operacion")
     private LocalDateTime momentoOperacion;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "operacion_tipo_id")
+    @Column(name = "tipo")
     private OperacionTipo operacionTipo;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

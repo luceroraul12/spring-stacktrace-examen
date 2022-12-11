@@ -2,14 +2,15 @@ package luceroraul.stacktrace.examen.request;
 
 import lombok.Getter;
 import lombok.Setter;
+import luceroraul.stacktrace.examen.entities.OperacionTipo;
 
 @Getter
 @Setter
 public class PeticionIntercambio extends PeticionDeposito{
-    private Long idActivoDestino;
+    private Long idActivoOrigen;
 
-    public PeticionIntercambio(Long idActivoOrigen, Long idActivoDestino, Double cantidadEnMonedaCriptoOrigen ) {
-        super(idActivoOrigen, cantidadEnMonedaCriptoOrigen);
-        this.idActivoDestino = idActivoDestino;
+    public PeticionIntercambio(OperacionTipo operacionTipo, Double cantidadOperable, Long idActivoDestino, Long idActivoOrigen) {
+        super(operacionTipo, cantidadOperable, idActivoDestino);
+        this.idActivoOrigen = idActivoOrigen;
     }
 }

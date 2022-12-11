@@ -40,9 +40,11 @@ class BilleteraOperacionServiceTest {
     @Test
     void intercambiarMismaMonedaOrgenDestino() throws Exception {
         Map<String, Activo> resultado = service.intercambiar(new PeticionIntercambio(
-                20L,
+                null,
+                20.0,
                 5L,
-                20.0));
+                20L
+                ));
         Activo origen = resultado.get("activoReducido");
         Activo destino = resultado.get("activoIncrementado");
         assertEquals(5.3, origen.getCantidadAdquirida(),0.001);
@@ -53,9 +55,10 @@ class BilleteraOperacionServiceTest {
     @Test
     void intercambiarDiferentesMonedas() throws Exception {
         Map<String, Activo> resultado = service.intercambiar(new PeticionIntercambio(
-                20L,
+                null,
+                20.0,
                 10L,
-                20.0));
+                20L));
         Activo origen = resultado.get("activoReducido");
         Activo destino = resultado.get("activoIncrementado");
         assertEquals(5.3, origen.getCantidadAdquirida(),0.001);
@@ -64,10 +67,12 @@ class BilleteraOperacionServiceTest {
 
     @Test
     void intercambiarThrow(){
-        Exception exception = assertThrows(Exception.class, () -> service.intercambiar(new PeticionIntercambio(
-                5L,
-                20L,
-                20.0)));
+        Exception exception = assertThrows(Exception.class, () -> service.intercambiar(
+                new PeticionIntercambio(
+                        null,
+                        20.0,
+                        20L,
+                        5L)));
 
         assertEquals(exception.getMessage(), "fondo insuficiente en activo de origen");
     }

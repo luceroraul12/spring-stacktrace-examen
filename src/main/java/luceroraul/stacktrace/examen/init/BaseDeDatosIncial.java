@@ -4,7 +4,6 @@ import jakarta.annotation.PostConstruct;
 import luceroraul.stacktrace.examen.entities.*;
 import luceroraul.stacktrace.examen.repositories.MonedaCriptoRepository;
 import luceroraul.stacktrace.examen.repositories.MonedaTradicionalRepository;
-import luceroraul.stacktrace.examen.repositories.OperacionTipoRepository;
 import luceroraul.stacktrace.examen.repositories.SexoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +20,6 @@ public class BaseDeDatosIncial {
     @Autowired
     MonedaCriptoRepository monedaCriptoRepository;
 
-    @Autowired
-    OperacionTipoRepository operacionTipoRepository;
 
     @PostConstruct
     public void cargarBaseDeDatos(){
@@ -35,14 +32,6 @@ public class BaseDeDatosIncial {
         if (monedaCriptoRepository.count() == 0){
             cargarTablaMonedaCripto();
         }
-        if(operacionTipoRepository.count() == 0){
-            cargarTableOperacionTipo();
-        }
-    }
-
-    private void cargarTableOperacionTipo() {
-        operacionTipoRepository.save(new OperacionTipo("INTERCAMBIO"));
-        operacionTipoRepository.save(new OperacionTipo("DEPOSITO"));
     }
 
     private void cargarTablaMonedaCripto() {

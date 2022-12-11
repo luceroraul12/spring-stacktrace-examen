@@ -13,8 +13,7 @@ import java.util.List;
 public class Usuario extends Identificable {
     @Column(name = "dni", unique = true)
     private Integer DNI;
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "sexo_id", nullable = false)
+    @Column(name = "sexo")
     private Sexo sexo;
 
     @ElementCollection

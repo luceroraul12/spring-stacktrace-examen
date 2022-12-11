@@ -18,13 +18,13 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class BilleteraOperacionServiceTest {
+class BilleteraActivoOperacionesServiceTest {
 
     @MockBean
     ActivoRepository repository;
 
     @Autowired
-    BilleteraOperacionService service;
+    BilleteraActivoOperacionesService service;
 
     @BeforeEach
     void before(){

@@ -10,12 +10,11 @@ import luceroraul.stacktrace.examen.util.BilleteraOperacionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class BilleteraOperacionService {
+public class BilleteraActivoOperacionesService {
 
     @Autowired
     ActivoRepository activoRepository;

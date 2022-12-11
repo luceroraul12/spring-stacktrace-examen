@@ -1,10 +1,7 @@
 package luceroraul.stacktrace.examen.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -20,15 +17,12 @@ public class Operacion extends Identificable {
     @Column(name = "tipo")
     private OperacionTipo operacionTipo;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "billetera_id")
-    private Billetera billetera;
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "activo_origen_id")
+    private Activo activoOrigen;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "moneda_cripto_origen_id")
-    private MonedaCripto monedaCriptoOrigen;
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "activo_destino_id")
+    private Activo activoDestino;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "moneda_cripto_destino_id")
-    private MonedaCripto monedaCriptoDestino;
 }

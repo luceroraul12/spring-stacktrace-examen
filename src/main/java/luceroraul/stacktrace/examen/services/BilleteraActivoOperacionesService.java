@@ -2,6 +2,7 @@ package luceroraul.stacktrace.examen.services;
 
 import luceroraul.stacktrace.examen.entities.Activo;
 import luceroraul.stacktrace.examen.entities.Operacion;
+import luceroraul.stacktrace.examen.entities.OperacionTipo;
 import luceroraul.stacktrace.examen.repositories.ActivoRepository;
 import luceroraul.stacktrace.examen.repositories.OperacionRepository;
 import luceroraul.stacktrace.examen.request.PeticionDeposito;
@@ -10,6 +11,7 @@ import luceroraul.stacktrace.examen.util.BilleteraOperacionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,22 +29,20 @@ public class BilleteraActivoOperacionesService {
 
     public Activo depositar(PeticionDeposito peticion) throws Exception {
         Activo resultado;
-        Long idActivoOrigen;
-        Double cantidad;
-        Operacion operacion;
-        idActivoOrigen = peticion.getIdActivoDestino();
-        cantidad = peticion.getCantidadOperable();
+        Double cantidad = peticion.getCantidadOperable();
+        Activo activoDestino = activoRepository
+                .findById(peticion.getIdActivoDestino())
+                .orElseThrow();
+
         resultado = util.realizarIncrementoMismaUnidad(
-                activoRepository.findById(idActivoOrigen).orElseThrow(),
+                activoDestino,
                 cantidad);
 
-        operacion = new Operacion(
-
-        );
-        activoRepository.save(resultado);
-
+        almacenarDepositoYActivo(resultado);
         return resultado;
     }
+
+
 
     public Map<String, Activo> intercambiar(PeticionIntercambio peticion) throws Exception {
         Map<String, Activo> resultado = new HashMap<>();
@@ -68,5 +68,26 @@ public class BilleteraActivoOperacionesService {
             throw new Exception("fondo insuficiente en activo de origen");
         }
         return resultado;
+    }
+
+    private void almacenarDepositoYActivo(Activo resultado) {
+        activoRepository.save(resultado);
+        operacionRepository.save(new Operacion(
+                LocalDateTime.now(),
+                OperacionTipo.DEPOSITO,
+                null,
+                resultado
+        ));
+    }
+
+    private void almacenarIntercambioYActivos(Map<String, Activo> map){
+        map.forEach((key,data) -> activoRepository.save(data));
+
+        operacionRepository.save(new Operacion(
+                LocalDateTime.now(),
+                OperacionTipo.DEPOSITO,
+                map.get("activoReducido"),
+                map.get("activoIncrementado")
+        ));
     }
 }

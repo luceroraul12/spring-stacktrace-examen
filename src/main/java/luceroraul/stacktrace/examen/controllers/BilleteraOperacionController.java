@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("billeteras/operaciones")
-public class BilleteraOperacion implements OperacionesDivisasEnBilletera {
+public class BilleteraOperacionController implements OperacionesDivisasEnBilletera {
 
     @PostMapping("depositar")
     @Override

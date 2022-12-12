@@ -1,9 +1,12 @@
 package luceroraul.stacktrace.examen.services;
 
 import luceroraul.stacktrace.examen.entities.Activo;
+import luceroraul.stacktrace.examen.entities.BilleteraDto;
+import luceroraul.stacktrace.examen.entities.BilleteraDto.ActivoDto;
 import luceroraul.stacktrace.examen.entities.MonedaCripto;
 import luceroraul.stacktrace.examen.repositories.ActivoRepository;
 import luceroraul.stacktrace.examen.request.PeticionIntercambio;
+import luceroraul.stacktrace.examen.responses.Respuesta.Body;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -11,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 import java.util.Optional;
@@ -39,14 +43,14 @@ class BilleteraActivoOperacionesServiceTest {
 
     @Test
     void intercambiarMismaMonedaOrgenDestino() throws Exception {
-        Map<String, Activo> resultado = service.intercambiar(new PeticionIntercambio(
+        Map<String, ActivoDto>resultado = (Map<String, ActivoDto>) service.intercambiar(new PeticionIntercambio(
                 null,
                 20.0,
                 5L,
                 20L
-                ));
-        Activo origen = resultado.get("activoReducido");
-        Activo destino = resultado.get("activoIncrementado");
+                )).getBody().getBody();
+        ActivoDto origen = resultado.get("activoReducido");
+        ActivoDto destino = resultado.get("activoIncrementado");
         assertEquals(5.3, origen.getCantidadAdquirida(),0.001);
         assertEquals(35.0, destino.getCantidadAdquirida(), 0.001);
 
@@ -54,27 +58,27 @@ class BilleteraActivoOperacionesServiceTest {
 
     @Test
     void intercambiarDiferentesMonedas() throws Exception {
-        Map<String, Activo> resultado = service.intercambiar(new PeticionIntercambio(
+        Map<String, ActivoDto> resultado = (Map<String, ActivoDto>) service.intercambiar(new PeticionIntercambio(
                 null,
                 20.0,
                 10L,
                 20L));
-        Activo origen = resultado.get("activoReducido");
-        Activo destino = resultado.get("activoIncrementado");
+        ActivoDto origen = resultado.get("activoReducido");
+        ActivoDto destino = resultado.get("activoIncrementado");
         assertEquals(5.3, origen.getCantidadAdquirida(),0.001);
         assertEquals(28.33, destino.getCantidadAdquirida(), 0.01);
     }
 
     @Test
-    void intercambiarThrow(){
-        Exception exception = assertThrows(Exception.class, () -> service.intercambiar(
+    void intercambiarErroneo(){
+        ResponseEntity<Body> resultado = service.intercambiar(
                 new PeticionIntercambio(
                         null,
                         20.0,
                         20L,
-                        5L)));
+                        5L));
 
-        assertEquals(exception.getMessage(), "fondo insuficiente en activo de origen");
+        assertEquals("Error al intercambiar, error en cantidad", resultado.getBody().getMensaje());
     }
 
 

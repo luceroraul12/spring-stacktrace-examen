@@ -1,7 +1,6 @@
 package luceroraul.stacktrace.examen.controllers;
 
 import luceroraul.stacktrace.examen.controllers.divisas.OperacionesDivisasEnBilletera;
-import luceroraul.stacktrace.examen.entities.BilleteraDto;
 import luceroraul.stacktrace.examen.entities.BilleteraDto.ActivoDto;
 import luceroraul.stacktrace.examen.request.PeticionDeposito;
 import luceroraul.stacktrace.examen.request.PeticionIntercambio;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("billeteras/operaciones")
@@ -29,7 +30,7 @@ public class BilleteraOperacionController implements OperacionesDivisasEnBillete
 
     @PostMapping("intercambiar")
     @Override
-    public ResponseEntity<Object> intercambiarCantidad(PeticionIntercambio Peticion) {
-        return null;
+    public ResponseEntity<Respuesta<Map<String, ActivoDto>>> intercambiarCantidad(@RequestBody PeticionIntercambio peticion) throws Exception {
+        return billeteraActivoOperacionesService.intercambiarDto(peticion);
     }
 }

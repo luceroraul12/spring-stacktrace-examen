@@ -6,6 +6,7 @@ import luceroraul.stacktrace.examen.entities.MonedaCripto;
 import luceroraul.stacktrace.examen.entities.Activo;
 import luceroraul.stacktrace.examen.repositories.BilleteraRepository;
 import luceroraul.stacktrace.examen.responses.Respuesta;
+import luceroraul.stacktrace.examen.responses.Respuesta.Body;
 import luceroraul.stacktrace.examen.util.BilleteraUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,28 +52,40 @@ public class BilleteraService extends ServiceABM<Billetera>{
     }
 
 
-    public ResponseEntity<Respuesta<Double>> consultarSaldoPorBilletera(Long id) {
-        Billetera billetera = billeteraRepository.findById(id).orElseThrow();
-        Respuesta<Double> resultado = new Respuesta<>(
-                billeteraUtil.obtenerSaldoBilleteraEnPesos(Collections.singletonList(billetera)),
-                "Consulta de saldo por billetera exitosa"
-        );
-
-        return new ResponseEntity<>(resultado, HttpStatus.OK);
+    public ResponseEntity<Body> consultarSaldoPorBilletera(Long id) {
+        Respuesta resultado;
+        Billetera billetera;
+        try {
+            billetera = billeteraRepository.findById(id).get();
+            resultado = new Respuesta(
+                    billeteraUtil.obtenerSaldoBilleteraEnPesos(Collections.singletonList(billetera)),
+                    "Consulta de saldo por billetera exitosa",
+                    HttpStatus.OK
+            );
+        } catch (Exception e) {
+            resultado = new Respuesta(
+                    null,
+                    "No existe billetera con id: "+id,
+                    HttpStatus.ACCEPTED
+            );
+        }
+        return resultado.getResponseEntity();
     }
 
-    public ResponseEntity<Respuesta<Double>> consultarSaldoPorUsuario(Long id){
-        List<Billetera> billeteras = billeteraRepository.obtenerTodasLasBilleterasDeUsuario(id);
-        Respuesta<Double> resultado;
-        if (billeteras.size() != 0){
-            resultado = new Respuesta<>(
+    public ResponseEntity<Body> consultarSaldoPorUsuario(Long id){
+        Respuesta resultado;
+        List<Billetera> billeteras;
+        try {
+            billeteras = billeteraRepository.obtenerTodasLasBilleterasDeUsuario(id);
+            resultado = new Respuesta(
                     billeteraUtil.obtenerSaldoBilleteraEnPesos(billeteras),
-                    "Consulta de saldo por usuario exitosa"
+                    "Consulta de saldo por usuario exitosa",
+                    HttpStatus.OK
             );
-        } else {
-            resultado = new Respuesta<>(null, "no existe billetera con id: "+id);
+        } catch (Exception e) {
+            resultado = new Respuesta(null, "Error al consultar saldo de usuario con id: "+id,HttpStatus.ACCEPTED);
         }
-        return new ResponseEntity<>(resultado, HttpStatus.OK);
+        return resultado.getResponseEntity();
     }
 
 }

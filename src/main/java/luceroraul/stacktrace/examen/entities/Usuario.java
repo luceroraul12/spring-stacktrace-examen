@@ -16,14 +16,10 @@ public class Usuario extends Identificable {
     @Column(name = "sexo")
     private Sexo sexo;
 
-    @ElementCollection
     @Column(name = "nombre", length = 50)
-    @CollectionTable(name = "usuario_nombres", joinColumns = @JoinColumn(name = "owner_id"))
-    private List<String> nombres = new ArrayList<>();
-    @ElementCollection
+    private String nombre;
     @Column(name = "apellido", length = 50)
-    @CollectionTable(name = "usuario_apellidos", joinColumns = @JoinColumn(name = "owner_id"))
-    private List<String> apellidos = new ArrayList<>();
+    private String apellido;
 
     @Column(name = "email")
     private String email;

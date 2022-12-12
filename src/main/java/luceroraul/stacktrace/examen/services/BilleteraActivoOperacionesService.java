@@ -1,7 +1,7 @@
 package luceroraul.stacktrace.examen.services;
 
 import luceroraul.stacktrace.examen.entities.Activo;
-import luceroraul.stacktrace.examen.entities.BilleteraDto.ActivoDto;
+import luceroraul.stacktrace.examen.entities.ActivoDTO;
 import luceroraul.stacktrace.examen.entities.Operacion;
 import luceroraul.stacktrace.examen.entities.Operacion.OperacionTipo;
 import luceroraul.stacktrace.examen.repositories.ActivoRepository;
@@ -59,7 +59,7 @@ public class BilleteraActivoOperacionesService {
 
     public ResponseEntity<Body> depositarResultadoDto(PeticionDeposito peticion) throws Exception {
         Respuesta respuesta;
-        ActivoDto resultado;
+        ActivoDTO resultado;
         try {
             resultado = billeteraUtil.convertirActivoaDTO(depositar(peticion));
             respuesta = new Respuesta(resultado, "deposito realizado con exito", HttpStatus.OK);

@@ -1,6 +1,8 @@
 package luceroraul.stacktrace.examen.entities;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,18 +10,13 @@ import java.util.List;
 /**
  * A DTO for the {@link Billetera} entity
  */
-@Data
-public class BilleteraDto implements Serializable {
-    private final Long id;
-    private final List<ActivoDto> activos;
+@Getter
+@Setter
+public class BilleteraDto extends BaseDTO implements Serializable {
+    private List<ActivoDTO> activos;
 
-    /**
-     * A DTO for the {@link Activo} entity
-     */
-    @Data
-    public static class ActivoDto implements Serializable {
-        private final Long id;
-        private final String monedaCriptoNombre;
-        private final Double cantidadAdquirida;
+    public BilleteraDto(Long id, List<ActivoDTO> activos) {
+        super(id);
+        this.activos = activos;
     }
 }

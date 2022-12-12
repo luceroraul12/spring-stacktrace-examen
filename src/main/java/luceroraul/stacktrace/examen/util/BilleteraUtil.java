@@ -1,16 +1,17 @@
 package luceroraul.stacktrace.examen.util;
 
-import luceroraul.stacktrace.examen.entities.Activo;
-import luceroraul.stacktrace.examen.entities.Billetera;
-import luceroraul.stacktrace.examen.entities.BilleteraDto;
-import luceroraul.stacktrace.examen.entities.BilleteraDto.ActivoDto;
+import luceroraul.stacktrace.examen.entities.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class BilleteraUtil {
+public class BilleteraUtil extends BaseUtil<Billetera>{
+
+    @Autowired
+    ActivoUtil activoUtil;
 
     public List<BilleteraDto> convertirVariasbilleterasaDTO(List<Billetera> billeteras){
         return billeteras
@@ -24,13 +25,13 @@ public class BilleteraUtil {
                 billetera.getId(),
                 billetera.getActivos()
                         .stream()
-                        .map(this::convertirActivoaDTO)
+                        .map(activo -> (ActivoDTO) activoUtil.convertirToDTO(activo))
                         .collect(Collectors.toList())
         );
     }
 
-    public ActivoDto convertirActivoaDTO(Activo activo){
-        return new ActivoDto(
+    public ActivoDTO convertirActivoaDTO(Activo activo){
+        return new ActivoDTO(
                 activo.getId(),
                 activo.getMonedaCripto().getNombre(),
                 activo.getCantidadAdquirida()
@@ -47,5 +48,15 @@ public class BilleteraUtil {
                 .flatMap(List::stream)
                 .map(this::obtenerEquivalenciaActivoEnPesos)
                 .reduce(Double::sum).get();
+    }
+
+    @Override
+    public BaseDTO convertirToDTO(Billetera elemento) {
+        return new BilleteraDto(
+                elemento.getId(),
+                elemento.getActivos().stream()
+                        .map(act -> (ActivoDTO) activoUtil.convertirToDTO(act))
+                        .collect(Collectors.toList())
+        );
     }
 }

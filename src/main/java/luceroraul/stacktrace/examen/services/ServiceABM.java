@@ -1,6 +1,9 @@
 package luceroraul.stacktrace.examen.services;
 
 import luceroraul.stacktrace.examen.entities.Identificable;
+import luceroraul.stacktrace.examen.responses.Respuesta;
+import luceroraul.stacktrace.examen.responses.Respuesta.Body;
+import luceroraul.stacktrace.examen.util.BaseUtil;
 import luceroraul.stacktrace.examen.util.ConvertidorParaActualizarUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,56 +17,66 @@ public abstract class ServiceABM<Entidad extends Identificable> {
     protected JpaRepository<Entidad, Long> repository;
 
     @Autowired
+    protected BaseUtil<Entidad> baseUtil;
+
+    @Autowired
     private ConvertidorParaActualizarUtil convertidor;
 
     protected ServiceABM() {
     }
 
-    public ResponseEntity<Object> crear(Entidad elemento){
-        ResponseEntity<Object> respuesta;
+    public ResponseEntity<Body> crear(Entidad elemento){
+        Respuesta respuesta;
         elemento = repository.save(elemento);
         if(!repository.existsById(elemento.getId())){
-            respuesta = new ResponseEntity<>(
-                    "error al intentar crear: "+elemento.getClass().getName(),
-                    HttpStatus.ACCEPTED);
+            respuesta = new Respuesta(null, "el id del "+elemento.getClass().getSimpleName()+" ya existe", HttpStatus.ACCEPTED);
         } else {
-            respuesta = new ResponseEntity<>(elemento,HttpStatus.OK);
+            respuesta = new Respuesta(elemento, "Creacion realizada con exito", HttpStatus.OK);
         }
-
-        return respuesta;
+        return respuesta.getResponseEntity();
     }
-    public ResponseEntity<Object> eliminar(Entidad elemento){
-        ResponseEntity<Object> respuesta;
+    public ResponseEntity<Body> eliminar(Entidad elemento){
+        Respuesta respuesta;
         String nombre = elemento.getClass().getSimpleName();
         Long id = elemento.getId();;
         repository.deleteById(id);
         if (repository.existsById(id)){
-            respuesta = new ResponseEntity<>(
+            respuesta = new Respuesta(
+                    null,
                     "error al intentar borrar el "+nombre+ " con id: "+id,
                     HttpStatus.ACCEPTED);
         } else {
-            respuesta = new ResponseEntity<>(nombre+" con id: "+id+ " eliminado", HttpStatus.OK);
+            respuesta = new Respuesta(
+                    baseUtil.convertirToDTO(elemento),
+                    nombre+" con id: "+id+ " eliminado",
+                    HttpStatus.OK);
         }
-        return respuesta;
+        return respuesta.getResponseEntity();
     }
 
-    public ResponseEntity<Object> modificar(Map<String,Object> elementoParcial) throws Exception {
-        ResponseEntity<Object> respuesta;
+    public ResponseEntity<Body> modificar(Map<String,Object> elementoParcial) throws Exception {
+        Respuesta respuesta;
         Long id = Long.parseLong(String.valueOf(elementoParcial.get("id")));
 
-//        repository.existsById(id);
-        Entidad elementoAlmacenado = repository.findById(id).orElseThrow(() -> {
-            return new Exception("error al modifcar");
-        });
-        Entidad elementoModificadoParaGuardar = convertidor.modificarEntidad(
-                elementoParcial,
-                elementoAlmacenado,
-                recuperarClaseGenerica()
-                );
-
-        repository.save(elementoModificadoParaGuardar);
-        respuesta = new ResponseEntity<>(elementoModificadoParaGuardar, HttpStatus.OK);
-        return respuesta;
+        if (repository.existsById(id)){
+            Entidad elementoAlmacenado = repository.findById(id).get();
+            Entidad elementoModificadoParaGuardar = convertidor.modificarEntidad(
+                    elementoParcial,
+                    elementoAlmacenado,
+                    recuperarClaseGenerica()
+            );
+            elementoAlmacenado = repository.save(elementoModificadoParaGuardar);
+            respuesta = new Respuesta(
+                    elementoAlmacenado,
+                    "Elemento creado con exito",
+                    HttpStatus.OK);
+        } else {
+            respuesta = new Respuesta(
+                    null,
+                    "Error al modificar, no existe elemento con dicho id",
+                    HttpStatus.ACCEPTED);
+        }
+        return respuesta.getResponseEntity();
     }
 
     protected abstract Class<Entidad> recuperarClaseGenerica();

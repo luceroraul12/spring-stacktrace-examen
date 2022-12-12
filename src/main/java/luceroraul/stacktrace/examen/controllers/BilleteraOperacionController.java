@@ -30,6 +30,6 @@ public class BilleteraOperacionController implements OperacionesDivisasEnBillete
     @PostMapping("intercambiar")
     @Override
     public ResponseEntity<Body> intercambiarCantidad(@RequestBody PeticionIntercambio peticion) throws Exception {
-        return billeteraActivoOperacionesService.intercambiarDto(peticion);
+        return billeteraActivoOperacionesService.intercambiar(peticion);
     }
 }

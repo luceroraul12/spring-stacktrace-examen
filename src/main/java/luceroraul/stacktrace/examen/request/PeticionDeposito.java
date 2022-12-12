@@ -3,7 +3,7 @@ package luceroraul.stacktrace.examen.request;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import luceroraul.stacktrace.examen.entities.OperacionTipo;
+import luceroraul.stacktrace.examen.entities.Operacion.OperacionTipo;
 
 @Getter
 @Setter

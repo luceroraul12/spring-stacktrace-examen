@@ -25,4 +25,7 @@ public class Operacion extends Identificable {
     @JoinColumn(name = "activo_destino_id")
     private Activo activoDestino;
 
+    public enum OperacionTipo{
+        DEPOSITO, INTERCAMBIO
+    }
 }

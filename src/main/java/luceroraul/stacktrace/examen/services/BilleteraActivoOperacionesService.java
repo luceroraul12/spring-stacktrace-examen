@@ -4,7 +4,7 @@ import luceroraul.stacktrace.examen.entities.Activo;
 import luceroraul.stacktrace.examen.entities.BilleteraDto;
 import luceroraul.stacktrace.examen.entities.BilleteraDto.ActivoDto;
 import luceroraul.stacktrace.examen.entities.Operacion;
-import luceroraul.stacktrace.examen.entities.OperacionTipo;
+import luceroraul.stacktrace.examen.entities.Operacion.OperacionTipo;
 import luceroraul.stacktrace.examen.repositories.ActivoRepository;
 import luceroraul.stacktrace.examen.repositories.OperacionRepository;
 import luceroraul.stacktrace.examen.request.PeticionDeposito;
@@ -124,7 +124,7 @@ public class BilleteraActivoOperacionesService {
         map.forEach((key,data) -> activoRepository.save(data));
         operacionRepository.save(new Operacion(
                 LocalDateTime.now(),
-                OperacionTipo.DEPOSITO,
+                OperacionTipo.INTERCAMBIO,
                 map.get("activoReducido"),
                 map.get("activoIncrementado")
         ));

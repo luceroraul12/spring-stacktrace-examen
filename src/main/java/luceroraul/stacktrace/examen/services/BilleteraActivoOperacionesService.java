@@ -91,6 +91,25 @@ public class BilleteraActivoOperacionesService {
         return resultado;
     }
 
+    public ResponseEntity<Respuesta<Map<String, ActivoDto>>> intercambiarDto(PeticionIntercambio peticion) throws Exception {
+        ResponseEntity<Respuesta<Map<String, ActivoDto>>> retorno;
+        Map<String, Activo> resultado = intercambiar(peticion);
+        Respuesta<Map<String, ActivoDto>>  respuesta;
+        Map<String, ActivoDto> resultadoDto = new HashMap<>();
+
+        resultado.forEach((llave, valor) -> {
+            resultadoDto.put(llave, billeteraUtil.convertirActivoaDTO(valor));
+        });
+        if (resultado.size() > 1){
+            almacenarIntercambioYActivos(resultado);
+            retorno = new ResponseEntity<>(new Respuesta<>(resultadoDto,"intercambio realizado con exito"), HttpStatus.OK);
+        } else {
+            retorno = new ResponseEntity<>(new Respuesta<>(null,"error al intentar intercambio"), HttpStatus.ACCEPTED);
+        }
+
+        return retorno;
+    }
+
     private void almacenarDepositoYActivo(Activo resultado) {
         activoRepository.save(resultado);
         operacionRepository.save(new Operacion(
@@ -103,7 +122,6 @@ public class BilleteraActivoOperacionesService {
 
     private void almacenarIntercambioYActivos(Map<String, Activo> map){
         map.forEach((key,data) -> activoRepository.save(data));
-
         operacionRepository.save(new Operacion(
                 LocalDateTime.now(),
                 OperacionTipo.DEPOSITO,
@@ -111,4 +129,6 @@ public class BilleteraActivoOperacionesService {
                 map.get("activoIncrementado")
         ));
     }
+
+
 }

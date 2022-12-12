@@ -36,4 +36,16 @@ public class BilleteraUtil {
                 activo.getCantidadAdquirida()
         );
     }
+
+    public Double obtenerEquivalenciaActivoEnPesos(Activo activo){
+        return activo.getCantidadAdquirida() * activo.getMonedaCripto().getRelacionDolar();
+    }
+
+    public Double obtenerSaldoBilleteraEnPesos(List<Billetera> billeteras){
+        return billeteras.stream()
+                .map(Billetera::getActivos)
+                .flatMap(List::stream)
+                .map(this::obtenerEquivalenciaActivoEnPesos)
+                .reduce(Double::sum).get();
+    }
 }

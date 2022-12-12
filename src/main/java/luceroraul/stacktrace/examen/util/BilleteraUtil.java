@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class BilleteraUtil extends BaseUtil<Billetera>{
+public class BilleteraUtil extends BaseUtil<Billetera, BilleteraDto>{
 
     @Autowired
     ActivoUtil activoUtil;
@@ -58,5 +58,10 @@ public class BilleteraUtil extends BaseUtil<Billetera>{
                         .map(act -> (ActivoDTO) activoUtil.convertirToDTO(act))
                         .collect(Collectors.toList())
         );
+    }
+
+    @Override
+    public Billetera convertirToEntidad(BilleteraDto elemento) {
+        return null;
     }
 }

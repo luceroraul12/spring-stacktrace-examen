@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("billeteras")
-public class BilleteraController extends ControllerBase<Billetera>{
+public class BilleteraController extends ControllerBase<Billetera, BilleteraDto>{
     //TODO: al modificar billeteras realiza la accion correctamente pero arroja un error relacionado a JSON
 
     @Autowired

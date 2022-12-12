@@ -1,5 +1,6 @@
 package luceroraul.stacktrace.examen.services;
 
+import luceroraul.stacktrace.examen.entities.BaseDTO;
 import luceroraul.stacktrace.examen.entities.Identificable;
 import luceroraul.stacktrace.examen.responses.Respuesta;
 import luceroraul.stacktrace.examen.responses.Respuesta.Body;
@@ -12,12 +13,12 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
-public abstract class ServiceABM<Entidad extends Identificable> {
+public abstract class ServiceABM<Entidad extends Identificable, ClaseDTO extends BaseDTO> {
     @Autowired
     protected JpaRepository<Entidad, Long> repository;
 
     @Autowired
-    protected BaseUtil<Entidad> baseUtil;
+    protected BaseUtil<Entidad, ClaseDTO> baseUtil;
 
     @Autowired
     private ConvertidorParaActualizarUtil convertidor;
@@ -25,30 +26,35 @@ public abstract class ServiceABM<Entidad extends Identificable> {
     protected ServiceABM() {
     }
 
-    public ResponseEntity<Body> crear(Entidad elemento){
+    public ResponseEntity<Body> crear(ClaseDTO elemento){
         Respuesta respuesta;
-        elemento = repository.save(elemento);
-        if(!repository.existsById(elemento.getId())){
+        Entidad resultado;
+        if(!cumpleCondicionDeCreacion(elemento)){
             respuesta = new Respuesta(null, "el id del "+elemento.getClass().getSimpleName()+" ya existe", HttpStatus.ACCEPTED);
         } else {
-            respuesta = new Respuesta(elemento, "Creacion realizada con exito", HttpStatus.OK);
+            Long id = repository.save(baseUtil.convertirToEntidad(elemento)).getId();
+            resultado = repository.findById(id).get();
+            respuesta = new Respuesta(baseUtil.convertirToDTO(resultado), "Creacion realizada con exito", HttpStatus.OK);
         }
         return respuesta.getResponseEntity();
     }
-    public ResponseEntity<Body> eliminar(Entidad elemento){
+
+
+    public ResponseEntity<Body> eliminar(Map<String, Long> elemento){
         Respuesta respuesta;
-        String nombre = elemento.getClass().getSimpleName();
-        Long id = elemento.getId();;
+        Entidad resultado;
+        Long id = elemento.get("id");
         repository.deleteById(id);
         if (repository.existsById(id)){
             respuesta = new Respuesta(
                     null,
-                    "error al intentar borrar el "+nombre+ " con id: "+id,
+                    "error al intentar borrar el elemento con id: "+id,
                     HttpStatus.ACCEPTED);
         } else {
+            resultado = repository.findById(id).get();
             respuesta = new Respuesta(
-                    baseUtil.convertirToDTO(elemento),
-                    nombre+" con id: "+id+ " eliminado",
+                    baseUtil.convertirToDTO(resultado),
+                    "elemento con id: "+id+ " eliminado",
                     HttpStatus.OK);
         }
         return respuesta.getResponseEntity();
@@ -67,7 +73,7 @@ public abstract class ServiceABM<Entidad extends Identificable> {
             );
             elementoAlmacenado = repository.save(elementoModificadoParaGuardar);
             respuesta = new Respuesta(
-                    elementoAlmacenado,
+                    baseUtil.convertirToDTO(elementoAlmacenado),
                     "Elemento creado con exito",
                     HttpStatus.OK);
         } else {
@@ -80,5 +86,8 @@ public abstract class ServiceABM<Entidad extends Identificable> {
     }
 
     protected abstract Class<Entidad> recuperarClaseGenerica();
+
+    protected abstract boolean cumpleCondicionDeCreacion(ClaseDTO elemento);
+
 
 }

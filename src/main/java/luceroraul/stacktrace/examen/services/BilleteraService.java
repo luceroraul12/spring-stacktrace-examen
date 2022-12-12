@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class BilleteraService extends ServiceABM<Billetera>{
+public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
     @Autowired
     BilleteraUtil billeteraUtil;
     @Autowired
@@ -28,6 +28,11 @@ public class BilleteraService extends ServiceABM<Billetera>{
     @Override
     protected Class<Billetera> recuperarClaseGenerica() {
         return Billetera.class;
+    }
+
+    @Override
+    protected boolean cumpleCondicionDeCreacion(BilleteraDto elemento) {
+        return false;
     }
 
     public ResponseEntity<BilleteraDto> consultarBilleteraUnica(Long id) {

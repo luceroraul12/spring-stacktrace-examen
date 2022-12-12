@@ -6,7 +6,7 @@ import luceroraul.stacktrace.examen.entities.MonedaCriptoDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MonedaCriptoUtil extends BaseUtil<MonedaCripto>{
+public class MonedaCriptoUtil extends BaseUtil<MonedaCripto, MonedaCriptoDTO>{
     @Override
     public BaseDTO convertirToDTO(MonedaCripto elemento) {
         return new MonedaCriptoDTO(
@@ -14,5 +14,10 @@ public class MonedaCriptoUtil extends BaseUtil<MonedaCripto>{
                 elemento.getNombre(),
                 elemento.getRelacionDolar()
         );
+    }
+
+    @Override
+    public MonedaCripto convertirToEntidad(MonedaCriptoDTO elemento) {
+        return null;
     }
 }

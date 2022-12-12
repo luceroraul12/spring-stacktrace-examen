@@ -6,7 +6,7 @@ import luceroraul.stacktrace.examen.entities.UsuarioDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UsuarioUtil extends BaseUtil<Usuario>{
+public class UsuarioUtil extends BaseUtil<Usuario, UsuarioDTO>{
     @Override
     public BaseDTO convertirToDTO(Usuario elemento) {
         return new UsuarioDTO(
@@ -18,5 +18,10 @@ public class UsuarioUtil extends BaseUtil<Usuario>{
                 elemento.getEmail(),
                 elemento.getTelefono()
         );
+    }
+
+    @Override
+    public Usuario convertirToEntidad(UsuarioDTO elemento) {
+        return null;
     }
 }

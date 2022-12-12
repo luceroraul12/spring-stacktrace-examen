@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class ActivoUtil extends BaseUtil<Activo> {
+public class ActivoUtil extends BaseUtil<Activo, ActivoDTO> {
 
     public ActivoDTO convertirDTO(Activo activo){
         return new ActivoDTO(
@@ -30,5 +30,10 @@ public class ActivoUtil extends BaseUtil<Activo> {
                 elemento.getId(),
                 elemento.getMonedaCripto().getNombre(),
                 elemento.getCantidadAdquirida());
+    }
+
+    @Override
+    public Activo convertirToEntidad(ActivoDTO elemento) {
+        return null;
     }
 }

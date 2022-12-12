@@ -3,6 +3,7 @@ package luceroraul.stacktrace.examen.controllers;
 import luceroraul.stacktrace.examen.entities.Billetera;
 import luceroraul.stacktrace.examen.entities.BilleteraDto;
 import luceroraul.stacktrace.examen.responses.Respuesta;
+import luceroraul.stacktrace.examen.responses.Respuesta.Body;
 import luceroraul.stacktrace.examen.services.BilleteraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +31,12 @@ public class BilleteraController extends ControllerBase<Billetera>{
     }
 
     @GetMapping("consulta-saldo")
-    public ResponseEntity<Respuesta<Double>> consultarSaldoPorBilletera(@RequestBody Map<String, Long> pedido){
+    public ResponseEntity<Body> consultarSaldoPorBilletera(@RequestBody Map<String, Long> pedido){
         return billeteraService.consultarSaldoPorBilletera(pedido.get("idBilletera"));
     }
 
     @GetMapping("consulta-saldo-usuario")
-    public ResponseEntity<Respuesta<Double>> consultarSaldoPorUsuario(@RequestBody Map<String, Long> pedido){
+    public ResponseEntity<Body> consultarSaldoPorUsuario(@RequestBody Map<String, Long> pedido){
         return billeteraService.consultarSaldoPorUsuario(pedido.get("idUsuario"));
     }
 }

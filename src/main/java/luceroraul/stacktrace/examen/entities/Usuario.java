@@ -33,4 +33,8 @@ public class Usuario extends Identificable {
     @OneToMany(mappedBy = "usuario", orphanRemoval = true)
     private List<Billetera> billeteras = new ArrayList<>();
 
+    public enum Sexo  {
+        HOMBRE, MUJER, OTRO
+    }
+
 }

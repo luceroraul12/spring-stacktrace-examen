@@ -10,6 +10,7 @@ import luceroraul.stacktrace.examen.repositories.OperacionRepository;
 import luceroraul.stacktrace.examen.request.PeticionDeposito;
 import luceroraul.stacktrace.examen.request.PeticionIntercambio;
 import luceroraul.stacktrace.examen.responses.Respuesta;
+import luceroraul.stacktrace.examen.responses.Respuesta.Body;
 import luceroraul.stacktrace.examen.util.BilleteraOperacionUtil;
 import luceroraul.stacktrace.examen.util.BilleteraUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,16 +52,16 @@ public class BilleteraActivoOperacionesService {
         return resultado;
     }
 
-    public ResponseEntity<Respuesta<ActivoDto>> depositarResultadoDto(PeticionDeposito peticion) throws Exception {
-        ActivoDto resultado = billeteraUtil.convertirActivoaDTO(depositar(peticion));
-        ResponseEntity<Respuesta<ActivoDto>> retorno;
-        Respuesta<ActivoDto> respuesta;
-        if (resultado != null){
-            respuesta = new Respuesta<>(resultado, "deposito realizado con exito");
-        } else {
-            respuesta = new Respuesta<>(null, "error al realizar deposito");
+    public ResponseEntity<Body> depositarResultadoDto(PeticionDeposito peticion) throws Exception {
+        Respuesta respuesta;
+        ActivoDto resultado;
+        try {
+            resultado = billeteraUtil.convertirActivoaDTO(depositar(peticion));
+            respuesta = new Respuesta(resultado, "deposito realizado con exito", HttpStatus.OK);
+        } catch (Exception e) {
+            respuesta = new Respuesta(null, "error al realizar deposito", HttpStatus.ACCEPTED);
         }
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        return respuesta.getResponseEntity();
     }
 
 
@@ -91,10 +92,9 @@ public class BilleteraActivoOperacionesService {
         return resultado;
     }
 
-    public ResponseEntity<Respuesta<Map<String, ActivoDto>>> intercambiarDto(PeticionIntercambio peticion) throws Exception {
-        ResponseEntity<Respuesta<Map<String, ActivoDto>>> retorno;
+    public ResponseEntity<Body> intercambiarDto(PeticionIntercambio peticion) throws Exception {
         Map<String, Activo> resultado = intercambiar(peticion);
-        Respuesta<Map<String, ActivoDto>>  respuesta;
+        Respuesta respuesta;
         Map<String, ActivoDto> resultadoDto = new HashMap<>();
 
         resultado.forEach((llave, valor) -> {
@@ -102,12 +102,11 @@ public class BilleteraActivoOperacionesService {
         });
         if (resultado.size() > 1){
             almacenarIntercambioYActivos(resultado);
-            retorno = new ResponseEntity<>(new Respuesta<>(resultadoDto,"intercambio realizado con exito"), HttpStatus.OK);
+            respuesta = new Respuesta(resultadoDto,"intercambio realizado con exito", HttpStatus.OK);
         } else {
-            retorno = new ResponseEntity<>(new Respuesta<>(null,"error al intentar intercambio"), HttpStatus.ACCEPTED);
+            respuesta = new Respuesta(null,"error al intentar intercambio", HttpStatus.ACCEPTED);
         }
-
-        return retorno;
+        return respuesta.getResponseEntity();
     }
 
     private void almacenarDepositoYActivo(Activo resultado) {

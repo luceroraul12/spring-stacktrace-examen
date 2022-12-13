@@ -74,10 +74,11 @@ public class BilleteraUtil extends BaseUtil<Billetera, BilleteraDto>{
                         .id(elemento.getUsuario().getId())
                         .build())
                 .activos(
-                        elemento.getActivos().stream()
-                                .map(activoDTO -> activoUtil.convertirToEntidad(activoDTO))
-                                .collect(Collectors.toList())
-                )
+                        elemento.getActivos() != null
+                                ? elemento.getActivos().stream()
+                                        .map(activoDTO -> activoUtil.convertirToEntidad(activoDTO))
+                                        .collect(Collectors.toList())
+                                : null)
                 .build();
     }
 

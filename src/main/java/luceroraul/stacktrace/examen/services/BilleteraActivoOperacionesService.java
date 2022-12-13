@@ -53,7 +53,7 @@ public class BilleteraActivoOperacionesService {
                 activoDestino,
                 cantidad);
 
-        almacenarDepositoYActivo(resultado);
+        almacenarDepositoYActivo(resultado, cantidad);
         return resultado;
     }
 
@@ -92,7 +92,7 @@ public class BilleteraActivoOperacionesService {
                 //realizo el intercambio y almaceno el resultado
                 resultado = realizarIntercambio(activoOrigen, activoDestino, cantidad);
                 if (resultado.size() == 2){
-                    almacenarIntercambioYActivos(resultado);
+                    almacenarIntercambioYActivos(resultado, cantidad);
                 }
                 respuesta = new Respuesta(
                         activoUtil.convertirMapDto(resultado),
@@ -126,31 +126,32 @@ public class BilleteraActivoOperacionesService {
                 resultado.put("activoIncrementado", billeteraOperacionUtil.realizarIncrementoDiferentesUnidades(
                         activoOrigen,activoDestino, cantidad));
             }
-//            almacenarIntercambioYActivos(resultado);
         } else {
             throw new Exception("fondo insuficiente en activo de origen");
         }
         return resultado;
     }
 
-    private void almacenarDepositoYActivo(Activo resultado) {
+    private void almacenarDepositoYActivo(Activo resultado, Double cantidad) {
         activoRepository.save(resultado);
         operacionRepository.save(
                 Operacion.builder()
                         .momentoOperacion(LocalDateTime.now())
                         .operacionTipo(OperacionTipo.DEPOSITO)
                         .activoDestino(resultado)
+                        .cantidadOperada(cantidad)
                         .build());
     }
 
-    private void almacenarIntercambioYActivos(Map<String, Activo> map){
+    private void almacenarIntercambioYActivos(Map<String, Activo> map, Double cantidad){
         map.forEach((key,data) -> activoRepository.save(data));
         operacionRepository.save(
                 Operacion.builder()
-                .momentoOperacion(LocalDateTime.now())
-                .operacionTipo(OperacionTipo.INTERCAMBIO)
-                .activoOrigen(map.get("activoReducido"))
-                .activoDestino(map.get("activoIncrementado"))
+                    .momentoOperacion(LocalDateTime.now())
+                    .operacionTipo(OperacionTipo.INTERCAMBIO)
+                    .activoOrigen(map.get("activoReducido"))
+                    .activoDestino(map.get("activoIncrementado"))
+                    .cantidadOperada(cantidad)
                 .build());
     }
 

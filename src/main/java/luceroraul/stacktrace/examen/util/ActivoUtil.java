@@ -20,6 +20,7 @@ public class ActivoUtil extends BaseUtil<Activo, ActivoDTO> {
     @Override
     public ActivoDTO convertirToDTO(Activo elemento) {
         return new ActivoDTO(
+                elemento.getBilletera().getId(),
                 elemento.getId(),
                 elemento.getMonedaCripto().getId(),
                 elemento.getMonedaCripto().getNombre(),

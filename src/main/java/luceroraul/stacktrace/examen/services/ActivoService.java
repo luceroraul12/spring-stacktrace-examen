@@ -8,6 +8,9 @@ import luceroraul.stacktrace.examen.repositories.MonedaCriptoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementacion encargada de {@link Activo}
+ */
 @Service
 public class ActivoService extends ServiceABM<Activo, ActivoDTO>{
     @Autowired
@@ -20,6 +23,13 @@ public class ActivoService extends ServiceABM<Activo, ActivoDTO>{
         return Activo.class;
     }
 
+    /**
+     * Para que un activo sea creable, debe cumplir:
+     * -La {@link luceroraul.stacktrace.examen.entities.Billetera} debe existir
+     * -La {@link luceroraul.stacktrace.examen.entities.MonedaCripto} no debe estar asignada aun
+     * @param elemento objeto de entrada
+     * @return
+     */
     @Override
     protected boolean cumpleCondicionDeCreacion(ActivoDTO elemento) {
         boolean esBilleteraValida;

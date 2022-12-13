@@ -74,7 +74,7 @@ public abstract class ServiceABM<Entidad extends Identificable, ClaseDTO extends
             elementoAlmacenado = repository.save(elementoModificadoParaGuardar);
             respuesta = new Respuesta(
                     baseUtil.convertirToDTO(elementoAlmacenado),
-                    "Elemento creado con exito",
+                    "Elemento modificado con exito",
                     HttpStatus.OK);
         } else {
             respuesta = new Respuesta(

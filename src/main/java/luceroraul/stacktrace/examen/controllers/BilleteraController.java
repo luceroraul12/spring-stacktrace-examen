@@ -15,28 +15,27 @@ import java.util.Map;
 @RestController
 @RequestMapping("billeteras")
 public class BilleteraController extends ControllerBase<Billetera, BilleteraDto>{
-    //TODO: al modificar billeteras realiza la accion correctamente pero arroja un error relacionado a JSON
 
     @Autowired
     BilleteraService billeteraService;
 
-    @GetMapping("consulta")
-    public ResponseEntity<BilleteraDto> consultar(@RequestBody Map<String,Object> pedido){
-        return billeteraService.consultarBilleteraUnica(Long.valueOf(String.valueOf(pedido.get("id"))));
-    }
+//    @GetMapping("consulta")
+//    public ResponseEntity<BilleteraDto> consultar(@RequestBody Map<String,Object> pedido){
+//        return billeteraService.consultarBilleteraUnica(Long.valueOf(String.valueOf(pedido.get("id"))));
+//    }
+//
+//    @GetMapping("consulta-usuario")
+//    public ResponseEntity<List<BilleteraDto>> consultarPorIdUsuario(@RequestBody Map<String, Object> pedido){
+//        return billeteraService.consultarBilleterasPorUsuario(Long.parseLong(String.valueOf(pedido.get("id"))));
+//    }
 
-    @GetMapping("consulta-usuario")
-    public ResponseEntity<List<BilleteraDto>> consultarPorIdUsuario(@RequestBody Map<String, Object> pedido){
-        return billeteraService.consultarBilleterasPorUsuario(Long.parseLong(String.valueOf(pedido.get("id"))));
-    }
-
-    @GetMapping("consulta-saldo")
-    public ResponseEntity<Body> consultarSaldoPorBilletera(@RequestBody Map<String, Long> pedido){
-        return billeteraService.consultarSaldoPorBilletera(pedido.get("idBilletera"));
+    @GetMapping("consulta-saldo-billetera")
+    public ResponseEntity<Body> consultarSaldoPorBilletera(@RequestParam(value = "id-billetera") Long idBilletera){
+        return billeteraService.consultarSaldoPorBilletera(idBilletera);
     }
 
     @GetMapping("consulta-saldo-usuario")
-    public ResponseEntity<Body> consultarSaldoPorUsuario(@RequestBody Map<String, Long> pedido){
-        return billeteraService.consultarSaldoPorUsuario(pedido.get("idUsuario"));
+    public ResponseEntity<Body> consultarSaldoPorUsuario(@RequestParam(value = "id-usuario") Long idUsuario){
+        return billeteraService.consultarSaldoPorUsuario(idUsuario);
     }
 }

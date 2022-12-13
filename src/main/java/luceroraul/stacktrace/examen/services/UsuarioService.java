@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementacion relacionada a {@link Usuario}
+ */
 @Service
 public class UsuarioService extends ServiceABM<Usuario, UsuarioDTO>{
     @Autowired
@@ -27,6 +30,13 @@ public class UsuarioService extends ServiceABM<Usuario, UsuarioDTO>{
         return !contieneId & contieneApellido & contieneNombre;
     }
 
+
+    /**
+     * Cuando se crea un {@link Usuario} se le debe crear una billetera.
+     * por lo tanto, luego de la creacion del usuario, uso el repositorio de {@link Billetera} y genero el propio a partir del Id de usuario obtenido de la creacion previa.
+     * @param elemento es el objecto con los datos necesarios para hacer persistirlos. Ademas de eso, contiene el id posterior a la creacion del mismo.
+     * @return
+     */
     @Override
     public ResponseEntity<Body> crear(UsuarioDTO elemento) {
         ResponseEntity<Body> respuesta = super.crear(elemento);

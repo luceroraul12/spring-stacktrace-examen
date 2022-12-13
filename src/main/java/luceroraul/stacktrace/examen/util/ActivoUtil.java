@@ -22,8 +22,8 @@ public class ActivoUtil extends BaseUtil<Activo, ActivoDTO> {
     @Override
     public ActivoDTO convertirToDTO(Activo elemento) {
         return new ActivoDTO(
-                elemento.getBilletera().getId(),
                 elemento.getId(),
+                elemento.getBilletera().getId(),
                 elemento.getMonedaCripto().getId(),
                 elemento.getMonedaCripto().getNombre(),
                 elemento.getCantidadAdquirida());
@@ -48,8 +48,19 @@ public class ActivoUtil extends BaseUtil<Activo, ActivoDTO> {
     public Activo fusionarDTOyEntidad(Activo elementoAlmacenado, ActivoDTO elementoParcial) {
         return Activo.builder()
                 .id(elegirParametroNoNull(elementoAlmacenado.getId(),elementoParcial.getId()))
-                .monedaCripto(elementoAlmacenado.getMonedaCripto())
-                .billetera(elementoAlmacenado.getBilletera())
+                .monedaCripto(
+                        MonedaCripto.builder()
+                                .id(elegirParametroNoNull(
+                                        elementoAlmacenado.getMonedaCripto().getId(),
+                                        elementoParcial.getIdMonedaCripto()))
+                                .build())
+                .billetera(
+                        Billetera.builder()
+                                .id(elegirParametroNoNull(
+                                        elementoAlmacenado.getBilletera().getId(),
+                                        elementoParcial.getIdBilletera()))
+                                .build()
+                )
                 .cantidadAdquirida(elegirParametroNoNull(elementoAlmacenado.getCantidadAdquirida(),elementoParcial.getCantidadAdquirida()))
                 .build();
     }

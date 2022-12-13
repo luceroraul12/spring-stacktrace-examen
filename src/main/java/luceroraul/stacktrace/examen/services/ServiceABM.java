@@ -32,21 +32,19 @@ public abstract class ServiceABM<Entidad extends Identificable, ClaseDTO extends
     }
 
 
-    public ResponseEntity<Body> eliminar(ClaseDTO elemento){
+    public ResponseEntity<Body> eliminar(Long id){
         Respuesta respuesta;
-        Entidad resultado;
-        Long id = elemento.getId();
-        repository.deleteById(id);
-        if (repository.existsById(id)){
-            respuesta = new Respuesta(
-                    null,
-                    "error al intentar borrar el elemento con id: "+id,
-                    HttpStatus.ACCEPTED);
-        } else {
+        try {
+            repository.deleteById(id);
             respuesta = new Respuesta(
                     id,
                     "elemento con id: "+id+ " eliminado",
                     HttpStatus.OK);
+        } catch (Exception e) {
+            respuesta = new Respuesta(
+                    null,
+                    "error al intentar borrar el elemento con id: "+id,
+                    HttpStatus.ACCEPTED);
         }
         return respuesta.getResponseEntity();
     }

@@ -48,11 +48,17 @@ public class BilleteraUtil extends BaseUtil<Billetera, BilleteraDto>{
     }
 
     public Double obtenerSaldoBilleteraEnPesos(List<Billetera> billeteras){
-        return billeteras.stream()
-                .map(Billetera::getActivos)
-                .flatMap(List::stream)
-                .map(this::obtenerEquivalenciaActivoEnPesos)
-                .reduce(Double::sum).get();
+        Double resultado;
+        try {
+            resultado = billeteras.stream()
+                    .map(Billetera::getActivos)
+                    .flatMap(List::stream)
+                    .map(this::obtenerEquivalenciaActivoEnPesos)
+                    .reduce(Double::sum).get();
+        } catch (Exception e){
+            resultado = 0.0;
+        }
+        return resultado;
     }
 
     @Override

@@ -61,7 +61,7 @@ public class BilleteraActivoOperacionesService {
         Respuesta respuesta;
         ActivoDTO resultado;
         try {
-            resultado = billeteraUtil.convertirActivoaDTO(depositar(peticion));
+            resultado = activoUtil.convertirToDTO(depositar(peticion));
             respuesta = new Respuesta(resultado, "deposito realizado con exito", HttpStatus.OK);
         } catch (Exception e) {
             respuesta = new Respuesta(null, "error al realizar deposito", HttpStatus.ACCEPTED);

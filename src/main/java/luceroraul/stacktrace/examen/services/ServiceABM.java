@@ -5,13 +5,10 @@ import luceroraul.stacktrace.examen.entities.Identificable;
 import luceroraul.stacktrace.examen.responses.Respuesta;
 import luceroraul.stacktrace.examen.responses.Respuesta.Body;
 import luceroraul.stacktrace.examen.util.BaseUtil;
-import luceroraul.stacktrace.examen.util.ConvertidorParaActualizarUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.Map;
 
 public abstract class ServiceABM<Entidad extends Identificable, ClaseDTO extends BaseDTO> {
     @Autowired
@@ -19,10 +16,6 @@ public abstract class ServiceABM<Entidad extends Identificable, ClaseDTO extends
 
     @Autowired
     protected BaseUtil<Entidad, ClaseDTO> baseUtil;
-
-    @Autowired
-    private ConvertidorParaActualizarUtil convertidor;
-
     protected ServiceABM() {
     }
 
@@ -65,14 +58,10 @@ public abstract class ServiceABM<Entidad extends Identificable, ClaseDTO extends
         Long id = elementoParcial.getId();
 
         if (repository.existsById(id)){
-            Entidad elementoAlmacenado = repository.save(baseUtil.convertirToEntidad(elementoParcial));
-//            Entidad elementoAlmacenado = repository.findById(id).get();
-//            Entidad elementoModificadoParaGuardar = convertidor.modificarEntidad(
-//                    elementoParcial,
-//                    elementoAlmacenado,
-//                    recuperarClaseGenerica()
-//            );
-//            elementoAlmacenado = repository.save(elementoModificadoParaGuardar);
+            Entidad elementoAlmacenado = repository.findById(id).get();
+            Entidad elementoFusionado = baseUtil.fusionarDTOyEntidad(elementoAlmacenado, elementoParcial);
+            elementoAlmacenado = repository.save(elementoFusionado);
+
             respuesta = new Respuesta(
                     baseUtil.convertirToDTO(elementoAlmacenado),
                     "Elemento modificado con exito",

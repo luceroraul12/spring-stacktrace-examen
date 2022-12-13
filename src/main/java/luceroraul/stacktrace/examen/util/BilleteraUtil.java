@@ -13,6 +13,9 @@ public class BilleteraUtil extends BaseUtil<Billetera, BilleteraDto>{
     @Autowired
     ActivoUtil activoUtil;
 
+    @Autowired
+    UsuarioUtil usuarioUtil;
+
     public List<BilleteraDto> convertirVariasbilleterasaDTO(List<Billetera> billeteras){
         return billeteras
                 .stream()
@@ -23,9 +26,10 @@ public class BilleteraUtil extends BaseUtil<Billetera, BilleteraDto>{
     public BilleteraDto convertirBilleteraaDTO(Billetera billetera){
         return new BilleteraDto(
                 billetera.getId(),
+                usuarioUtil.convertirToDTO(billetera.getUsuario()),
                 billetera.getActivos()
                         .stream()
-                        .map(activo -> (ActivoDTO) activoUtil.convertirToDTO(activo))
+                        .map(activo -> activoUtil.convertirToDTO(activo))
                         .collect(Collectors.toList())
         );
     }
@@ -33,6 +37,7 @@ public class BilleteraUtil extends BaseUtil<Billetera, BilleteraDto>{
     public ActivoDTO convertirActivoaDTO(Activo activo){
         return new ActivoDTO(
                 activo.getId(),
+                activo.getMonedaCripto().getId(),
                 activo.getMonedaCripto().getNombre(),
                 activo.getCantidadAdquirida()
         );
@@ -51,9 +56,10 @@ public class BilleteraUtil extends BaseUtil<Billetera, BilleteraDto>{
     }
 
     @Override
-    public BaseDTO convertirToDTO(Billetera elemento) {
+    public BilleteraDto convertirToDTO(Billetera elemento) {
         return new BilleteraDto(
                 elemento.getId(),
+                usuarioUtil.convertirToDTO(elemento.getUsuario()),
                 elemento.getActivos().stream()
                         .map(act -> (ActivoDTO) activoUtil.convertirToDTO(act))
                         .collect(Collectors.toList())
@@ -62,6 +68,27 @@ public class BilleteraUtil extends BaseUtil<Billetera, BilleteraDto>{
 
     @Override
     public Billetera convertirToEntidad(BilleteraDto elemento) {
-        return null;
+        return Billetera.builder()
+                .id(elemento.getId())
+                .usuario(Usuario.builder()
+                        .id(elemento.getUsuario().getId())
+                        .build())
+                .activos(
+                        elemento.getActivos().stream()
+                                .map(activoDTO -> activoUtil.convertirToEntidad(activoDTO))
+                                .collect(Collectors.toList())
+                )
+                .build();
+    }
+
+    @Override
+    public Billetera fusionarDTOyEntidad(Billetera elementoAlmacenado, BilleteraDto elementoParcial) {
+        return Billetera.builder()
+                .id(elementoAlmacenado.getId())
+                .usuario(Usuario.builder()
+                        .id(elegirParametroNoNull(elementoAlmacenado.getUsuario().getId(), elementoParcial.getUsuario().getId()))
+                        .build())
+                .activos(elementoAlmacenado.getActivos())
+                .build();
     }
 }

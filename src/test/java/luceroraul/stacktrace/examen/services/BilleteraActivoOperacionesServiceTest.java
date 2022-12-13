@@ -1,8 +1,6 @@
 package luceroraul.stacktrace.examen.services;
 
 import luceroraul.stacktrace.examen.entities.Activo;
-import luceroraul.stacktrace.examen.entities.BilleteraDto;
-import luceroraul.stacktrace.examen.entities.BilleteraDto.ActivoDto;
 import luceroraul.stacktrace.examen.entities.MonedaCripto;
 import luceroraul.stacktrace.examen.repositories.ActivoRepository;
 import luceroraul.stacktrace.examen.request.PeticionIntercambio;

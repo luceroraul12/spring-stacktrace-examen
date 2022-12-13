@@ -13,10 +13,12 @@ import java.util.List;
 @Getter
 @Setter
 public class BilleteraDto extends BaseDTO implements Serializable {
+    private UsuarioDTO usuario;
     private List<ActivoDTO> activos;
 
-    public BilleteraDto(Long id, List<ActivoDTO> activos) {
+    public BilleteraDto(Long id, UsuarioDTO usuario, List<ActivoDTO> activos) {
         super(id);
+        this.usuario = usuario;
         this.activos = activos;
     }
 }

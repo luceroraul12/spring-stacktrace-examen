@@ -15,8 +15,8 @@ class ConvertidorMonedaUtilTest {
 
     @Test
     void convertir(){
-        MonedaCripto monedaCripto = new MonedaCripto("prueba", 20.0);
-        Activo activo = new Activo(monedaCripto, 3.5, null);
+        MonedaCripto monedaCripto = new MonedaCripto(null,"prueba", 20.0);
+        Activo activo = new Activo(null, monedaCripto, 3.5, null);
         Double resultado = convertidorMonedaUtil.obtenerActivoEnPesos(activo);
         assertEquals(70, resultado);
         assertNotEquals(30, resultado);
@@ -25,13 +25,13 @@ class ConvertidorMonedaUtilTest {
 
     @Test
     void convertirVarios(){
-        MonedaCripto m1 = new MonedaCripto("m1", 10.0);
-        MonedaCripto m2 = new MonedaCripto("m2", 20.0);
-        MonedaCripto m3 = new MonedaCripto("m3", 30.0);
+        MonedaCripto m1 = new MonedaCripto(null,"m1", 10.0);
+        MonedaCripto m2 = new MonedaCripto(null,"m2", 20.0);
+        MonedaCripto m3 = new MonedaCripto(null,"m3", 30.0);
         List<Activo> activos = Arrays.asList(
-                new Activo(m1,5.0,null),
-                new Activo(m2,10.0,null),
-                new Activo(m3,3.2,null)
+                new Activo(null, m1,5.0,null),
+                new Activo(null, m2,10.0,null),
+                new Activo(null, m3,3.2,null)
         );
 
         Double resultado = convertidorMonedaUtil.obtenerTotalDeActivosEnPesos(activos);

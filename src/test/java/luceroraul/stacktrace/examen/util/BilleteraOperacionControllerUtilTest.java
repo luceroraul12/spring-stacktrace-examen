@@ -17,7 +17,7 @@ class BilleteraOperacionControllerUtilTest {
 //                10L,
 //                null,
 //                10.0);
-        Activo original = new Activo(null, 20.5, null);
+        Activo original = new Activo(null,null, 20.5, null);
         Activo resultado = util.realizarIncrementoMismaUnidad(original, 25.3);
 
         assertEquals(45.8, resultado.getCantidadAdquirida());
@@ -28,7 +28,7 @@ class BilleteraOperacionControllerUtilTest {
 
     @Test
     void tieneMontoSuficiente() {
-        Activo original = new Activo(null, 20.5, null);
+        Activo original = new Activo(null,null, 20.5, null);
 
         boolean respuestaBuena = util.tieneMontoSuficiente(original,15.2);
         boolean respuestaMala = util.tieneMontoSuficiente(original,300.2);
@@ -40,10 +40,10 @@ class BilleteraOperacionControllerUtilTest {
 
     @Test
     void conversionDiferentesMonedaseIncrementarDestino(){
-        MonedaCripto monedaOrigen = new MonedaCripto("mOrigen", 20.0);
-        MonedaCripto monedaDestino = new MonedaCripto("mDestino", 30.0);
-        Activo activoOrigen = new Activo(monedaOrigen, 10.0, null);
-        Activo activoDestino = new Activo(monedaDestino, 10.0, null);
+        MonedaCripto monedaOrigen = new MonedaCripto(null, "mOrigen", 20.0);
+        MonedaCripto monedaDestino = new MonedaCripto(null, "mDestino", 30.0);
+        Activo activoOrigen = new Activo(null, monedaOrigen, 10.0, null);
+        Activo activoDestino = new Activo(null, monedaDestino, 10.0, null);
 
         Activo resultado = util.realizarIncrementoDiferentesUnidades(
                 activoOrigen,
@@ -54,15 +54,15 @@ class BilleteraOperacionControllerUtilTest {
 
     @Test
     void verificarMonedasDeActivos(){
-        MonedaCripto monedaOrigen = new MonedaCripto("mOrigen", 20.0);
-        MonedaCripto monedaDestino = new MonedaCripto("mDestino", 30.0);
-        Activo activoOrigen = new Activo(monedaOrigen, 10.0, null);
-        Activo activoDestino = new Activo(monedaDestino, 10.0, null);
+        MonedaCripto monedaOrigen = new MonedaCripto(null, "mOrigen", 20.0);
+        MonedaCripto monedaDestino = new MonedaCripto(null, "mDestino", 30.0);
+        Activo activoOrigen = new Activo(null, monedaOrigen, 10.0, null);
+        Activo activoDestino = new Activo(null, monedaDestino, 10.0, null);
 
         boolean resultado = util.sonSobreMismaMonedaCripto(activoOrigen,activoDestino);
         assertFalse(resultado);
 
-        activoDestino = new Activo(monedaOrigen, 10.0, null);
+        activoDestino = new Activo(null,monedaOrigen, 10.0, null);
         resultado = util.sonSobreMismaMonedaCripto(activoOrigen, activoDestino);
         assertTrue(resultado);
     }

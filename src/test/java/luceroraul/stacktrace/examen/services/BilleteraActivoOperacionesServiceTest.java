@@ -1,6 +1,7 @@
 package luceroraul.stacktrace.examen.services;
 
 import luceroraul.stacktrace.examen.entities.Activo;
+import luceroraul.stacktrace.examen.entities.ActivoDTO;
 import luceroraul.stacktrace.examen.entities.MonedaCripto;
 import luceroraul.stacktrace.examen.repositories.ActivoRepository;
 import luceroraul.stacktrace.examen.request.PeticionIntercambio;
@@ -31,24 +32,26 @@ class BilleteraActivoOperacionesServiceTest {
     @BeforeEach
     void before(){
         MockitoAnnotations.openMocks(this);
-        MonedaCripto monedaOrigen = new MonedaCripto("origen", 20.0);
-        MonedaCripto monedaDestino = new MonedaCripto("destino", 30.0);
+        MonedaCripto monedaOrigen = new MonedaCripto(null,"origen", 20.0);
+        MonedaCripto monedaDestino = new MonedaCripto(null,"destino", 30.0);
 
-        Mockito.when(repository.findById(20L)).thenReturn(Optional.of(new Activo(monedaOrigen, 25.3, null)));
-        Mockito.when(repository.findById(10L)).thenReturn(Optional.of(new Activo(monedaDestino, 15.0, null)));
-        Mockito.when(repository.findById(5L)).thenReturn(Optional.of(new Activo(monedaOrigen, 15.0, null)));
+        Mockito.when(repository.findById(20L)).thenReturn(Optional.of(new Activo(null,monedaOrigen, 25.3, null)));
+        Mockito.when(repository.findById(10L)).thenReturn(Optional.of(new Activo(null,monedaDestino, 15.0, null)));
+        Mockito.when(repository.findById(5L)).thenReturn(Optional.of(new Activo(null,monedaOrigen, 15.0, null)));
     }
 
     @Test
     void intercambiarMismaMonedaOrgenDestino() throws Exception {
-        Map<String, ActivoDto>resultado = (Map<String, ActivoDto>) service.intercambiar(new PeticionIntercambio(
-                null,
-                20.0,
-                5L,
-                20L
-                )).getBody().getBody();
-        ActivoDto origen = resultado.get("activoReducido");
-        ActivoDto destino = resultado.get("activoIncrementado");
+
+        MonedaCripto monedaOrigen = new MonedaCripto(null,"origen", 20.0);
+        MonedaCripto monedaDestino = new MonedaCripto(null,"destino", 30.0);
+
+        Map<String, Activo> resultado = service.realizarIntercambio(
+                        new Activo(null,monedaOrigen, 25.3, null),
+                        new Activo(null,monedaOrigen, 15.0, null),
+                        20.0);
+        Activo origen = resultado.get("activoReducido");
+        Activo destino = resultado.get("activoIncrementado");
         assertEquals(5.3, origen.getCantidadAdquirida(),0.001);
         assertEquals(35.0, destino.getCantidadAdquirida(), 0.001);
 
@@ -56,13 +59,15 @@ class BilleteraActivoOperacionesServiceTest {
 
     @Test
     void intercambiarDiferentesMonedas() throws Exception {
-        Map<String, ActivoDto> resultado = (Map<String, ActivoDto>) service.intercambiar(new PeticionIntercambio(
-                null,
-                20.0,
-                10L,
-                20L));
-        ActivoDto origen = resultado.get("activoReducido");
-        ActivoDto destino = resultado.get("activoIncrementado");
+        MonedaCripto monedaOrigen = new MonedaCripto(null,"origen", 20.0);
+        MonedaCripto monedaDestino = new MonedaCripto(null,"destino", 30.0);
+
+        Map<String, Activo> resultado = service.realizarIntercambio(
+                new Activo(null,monedaOrigen, 25.3, null),
+                new Activo(null,monedaDestino, 15.0, null),
+                20.0);
+        Activo origen = resultado.get("activoReducido");
+        Activo destino = resultado.get("activoIncrementado");
         assertEquals(5.3, origen.getCantidadAdquirida(),0.001);
         assertEquals(28.33, destino.getCantidadAdquirida(), 0.01);
     }

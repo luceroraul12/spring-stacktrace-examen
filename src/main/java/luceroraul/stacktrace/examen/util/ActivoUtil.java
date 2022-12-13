@@ -2,6 +2,7 @@ package luceroraul.stacktrace.examen.util;
 
 import luceroraul.stacktrace.examen.entities.Activo;
 import luceroraul.stacktrace.examen.entities.ActivoDTO;
+import luceroraul.stacktrace.examen.entities.Billetera;
 import luceroraul.stacktrace.examen.entities.MonedaCripto;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,7 @@ import java.util.Map;
 
 @Component
 public class ActivoUtil extends BaseUtil<Activo, ActivoDTO> {
+
 
     public Map<String, ActivoDTO> convertirMapDto(Map<String, Activo> activoMap){
         Map<String, ActivoDTO> resultado = new HashMap<>();
@@ -31,6 +33,10 @@ public class ActivoUtil extends BaseUtil<Activo, ActivoDTO> {
     public Activo convertirToEntidad(ActivoDTO elemento) {
         return Activo.builder()
                 .id(elemento.getId())
+                .billetera(Billetera.builder()
+                        .id(elemento.getIdBilletera())
+                        .build())
+                .cantidadAdquirida(elemento.getCantidadAdquirida())
                 .monedaCripto(
                         MonedaCripto.builder()
                                 .id(elemento.getIdMonedaCripto())

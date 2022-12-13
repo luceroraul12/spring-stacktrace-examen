@@ -95,6 +95,7 @@ public class BilleteraActivoOperacionesService {
                         activoUtil.convertirMapDto(resultado),
                         "Intercambio realizado con exito",
                         HttpStatus.OK);
+
             } catch (Exception e) {
                 respuesta = new Respuesta(
                         null,
@@ -122,7 +123,7 @@ public class BilleteraActivoOperacionesService {
                 resultado.put("activoIncrementado", billeteraOperacionUtil.realizarIncrementoDiferentesUnidades(
                         activoOrigen,activoDestino, cantidad));
             }
-            resultado.forEach((key,data) -> activoRepository.save(data));
+            almacenarIntercambioYActivos(resultado);
         } else {
             throw new Exception("fondo insuficiente en activo de origen");
         }

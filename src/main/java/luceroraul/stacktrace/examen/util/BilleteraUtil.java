@@ -34,14 +34,15 @@ public class BilleteraUtil extends BaseUtil<Billetera, BilleteraDto>{
         );
     }
 
-    public ActivoDTO convertirActivoaDTO(Activo activo){
-        return new ActivoDTO(
-                activo.getId(),
-                activo.getMonedaCripto().getId(),
-                activo.getMonedaCripto().getNombre(),
-                activo.getCantidadAdquirida()
-        );
-    }
+//    public ActivoDTO convertirActivoaDTO(Activo activo){
+//        return new ActivoDTO(
+//                activo.getBilletera().getId(),
+//                activo.getId(),
+//                activo.getMonedaCripto().getId(),
+//                activo.getMonedaCripto().getNombre(),
+//                activo.getCantidadAdquirida()
+//        );
+//    }
 
     public Double obtenerEquivalenciaActivoEnPesos(Activo activo){
         return activo.getCantidadAdquirida() * activo.getMonedaCripto().getRelacionDolar();

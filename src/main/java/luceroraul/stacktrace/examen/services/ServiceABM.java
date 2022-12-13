@@ -41,10 +41,10 @@ public abstract class ServiceABM<Entidad extends Identificable, ClaseDTO extends
     }
 
 
-    public ResponseEntity<Body> eliminar(Map<String, Long> elemento){
+    public ResponseEntity<Body> eliminar(ClaseDTO elemento){
         Respuesta respuesta;
         Entidad resultado;
-        Long id = elemento.get("id");
+        Long id = elemento.getId();
         repository.deleteById(id);
         if (repository.existsById(id)){
             respuesta = new Respuesta(
@@ -60,18 +60,19 @@ public abstract class ServiceABM<Entidad extends Identificable, ClaseDTO extends
         return respuesta.getResponseEntity();
     }
 
-    public ResponseEntity<Body> modificar(Map<String,Object> elementoParcial) throws Exception {
+    public ResponseEntity<Body> modificar(ClaseDTO elementoParcial) throws Exception {
         Respuesta respuesta;
-        Long id = Long.parseLong(String.valueOf(elementoParcial.get("id")));
+        Long id = elementoParcial.getId();
 
         if (repository.existsById(id)){
-            Entidad elementoAlmacenado = repository.findById(id).get();
-            Entidad elementoModificadoParaGuardar = convertidor.modificarEntidad(
-                    elementoParcial,
-                    elementoAlmacenado,
-                    recuperarClaseGenerica()
-            );
-            elementoAlmacenado = repository.save(elementoModificadoParaGuardar);
+            Entidad elementoAlmacenado = repository.save(baseUtil.convertirToEntidad(elementoParcial));
+//            Entidad elementoAlmacenado = repository.findById(id).get();
+//            Entidad elementoModificadoParaGuardar = convertidor.modificarEntidad(
+//                    elementoParcial,
+//                    elementoAlmacenado,
+//                    recuperarClaseGenerica()
+//            );
+//            elementoAlmacenado = repository.save(elementoModificadoParaGuardar);
             respuesta = new Respuesta(
                     baseUtil.convertirToDTO(elementoAlmacenado),
                     "Elemento modificado con exito",

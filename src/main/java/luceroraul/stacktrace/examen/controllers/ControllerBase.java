@@ -26,12 +26,12 @@ public abstract class ControllerBase<Entidad extends Identificable, ClaseDTO ext
     }
 
     @PatchMapping("modificar")
-    public ResponseEntity<Body> modificar(@RequestBody Map<String,Object> elemento) throws Exception {
+    public ResponseEntity<Body> modificar(@RequestBody ClaseDTO elemento) throws Exception {
         return serviceABM.modificar(elemento);
     }
 
     @DeleteMapping("baja")
-    public ResponseEntity<Body> eliminar(@RequestBody Map<String, Long> elemento){
+    public ResponseEntity<Body> eliminar(@RequestBody ClaseDTO elemento){
         return  serviceABM.eliminar(elemento);
     }
 

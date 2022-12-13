@@ -52,9 +52,8 @@ public abstract class ServiceABM<Entidad extends Identificable, ClaseDTO extends
                     "error al intentar borrar el elemento con id: "+id,
                     HttpStatus.ACCEPTED);
         } else {
-            resultado = repository.findById(id).get();
             respuesta = new Respuesta(
-                    baseUtil.convertirToDTO(resultado),
+                    id,
                     "elemento con id: "+id+ " eliminado",
                     HttpStatus.OK);
         }

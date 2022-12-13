@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Implementacion relacionada a {@link Billetera}
+ */
 @Service
 public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
     @Autowired
@@ -32,12 +35,22 @@ public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
         return Billetera.class;
     }
 
+    /**
+     * @param elemento objeto de entrada. Debe contener el id de usuario para que pueda ser evaluado
+     * @return
+     */
     @Override
     protected boolean cumpleCondicionDeCreacion(BilleteraDto elemento) {
         boolean esUsuarioValido = usuarioRepository.existsById(elemento.getUsuario().getId());
         return esUsuarioValido;
     }
 
+    //TODO: ver si lo dejo o no
+    /**
+     * Metodo encargado de mostrar el resumen de activos por billetera pero no el total en pesos
+     * @param id de billetera a consultar
+     * @return
+     */
     public ResponseEntity<BilleteraDto> consultarBilleteraUnica(Long id) {
         BilleteraDto billeteraDto = billeteraUtil.convertirBilleteraaDTO(billeteraRepository.findById(id).get());
 
@@ -45,7 +58,12 @@ public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
         respuesta = new ResponseEntity<>(billeteraDto, HttpStatus.OK);
         return respuesta;
     }
-
+    //TODO: ver si lo dejo o no
+    /**
+     * Metodo encargado de mostrar el resumen de billeteras por usuario pero no el total en pesos
+     * @param id del usuario a consultar
+     * @return
+     */
     public ResponseEntity<List<BilleteraDto>> consultarBilleterasPorUsuario(Long id){
         ResponseEntity<List<BilleteraDto>> respuesta;
         List<BilleteraDto> billeteras = billeteraUtil
@@ -55,6 +73,14 @@ public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
         return respuesta;
     }
 
+    /**
+     * Metodo encargado de obtener el resumen de billetera en pesos.
+     * Toma todos los {@link Activo}  realizando las conversiones necesarias y devuelve la suma en pesos.
+     * Ver {@link BilleteraUtil#obtenerSaldoBilleteraEnPesos(List)}
+     * @param id de la billetera
+     * @return
+     *
+     */
     public ResponseEntity<Body> consultarSaldoPorBilletera(Long id) {
         Respuesta resultado;
         Billetera billetera;
@@ -75,6 +101,11 @@ public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
         return resultado.getResponseEntity();
     }
 
+    /**
+     * Metodo encargado de obtener el resumen de las billeteras de un usuario en pesos.
+     * @param id del usuario
+     * @return
+     */
     public ResponseEntity<Body> consultarSaldoPorUsuario(Long id){
         Respuesta resultado;
         List<Billetera> billeteras;

@@ -18,6 +18,9 @@ public class MonedaCriptoUtil extends BaseUtil<MonedaCripto, MonedaCriptoDTO>{
 
     @Override
     public MonedaCripto convertirToEntidad(MonedaCriptoDTO elemento) {
-        return null;
+        return MonedaCripto.builder()
+                .nombre(elemento.getNombre())
+                .relacionDolar(elemento.getRelacionPeso())
+                .build();
     }
 }

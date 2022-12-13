@@ -79,6 +79,9 @@ public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
         Respuesta resultado;
         List<Billetera> billeteras;
         try {
+            if (!usuarioRepository.existsById(id)){
+                throw new Exception();
+            }
             billeteras = billeteraRepository.obtenerTodasLasBilleterasDeUsuario(id);
             resultado = new Respuesta(
                     billeteraUtil.obtenerSaldoBilleteraEnPesos(billeteras),
@@ -86,7 +89,7 @@ public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
                     HttpStatus.OK
             );
         } catch (Exception e) {
-            resultado = new Respuesta(null, "Error al consultar saldo de usuario con id: "+id,HttpStatus.ACCEPTED);
+            resultado = new Respuesta(null, "Error al consultar saldo. No existe usuario con id: "+id,HttpStatus.ACCEPTED);
         }
         return resultado.getResponseEntity();
     }

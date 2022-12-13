@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Operacion extends Identificable {
     @Column(name = "momento_operacion")
@@ -25,7 +23,20 @@ public class Operacion extends Identificable {
     @JoinColumn(name = "activo_destino_id")
     private Activo activoDestino;
 
+    public Operacion() {
+        super(null);
+    }
+
     public enum OperacionTipo{
         DEPOSITO, INTERCAMBIO
+    }
+
+    @Builder
+    public Operacion(Long id, LocalDateTime momentoOperacion, OperacionTipo operacionTipo, Activo activoOrigen, Activo activoDestino) {
+        super(id);
+        this.momentoOperacion = momentoOperacion;
+        this.operacionTipo = operacionTipo;
+        this.activoOrigen = activoOrigen;
+        this.activoDestino = activoDestino;
     }
 }

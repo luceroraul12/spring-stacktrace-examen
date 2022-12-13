@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class BaseDTO {
-    protected final Long id;
+    protected Long id;
 
     public BaseDTO(Long id) {
         this.id = id;

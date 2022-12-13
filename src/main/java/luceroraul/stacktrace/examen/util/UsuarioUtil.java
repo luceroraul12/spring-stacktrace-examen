@@ -22,6 +22,14 @@ public class UsuarioUtil extends BaseUtil<Usuario, UsuarioDTO>{
 
     @Override
     public Usuario convertirToEntidad(UsuarioDTO elemento) {
-        return null;
+        return Usuario.builder()
+                .id(elemento.getId())
+                .DNI(elemento.getDNI())
+                .sexo(elemento.getSexo())
+                .nombre(elemento.getNombre())
+                .apellido(elemento.getApellido())
+                .email(elemento.getEmail())
+                .telefono(elemento.getTelefono())
+                .build();
     }
 }

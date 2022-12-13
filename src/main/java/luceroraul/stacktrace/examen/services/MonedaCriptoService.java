@@ -13,6 +13,7 @@ public class MonedaCriptoService extends ServiceABM<MonedaCripto, MonedaCriptoDT
 
     @Override
     protected boolean cumpleCondicionDeCreacion(MonedaCriptoDTO elemento) {
-        return false;
+        boolean contieneId = elemento.getId() != null;
+        return !contieneId;
     }
 }

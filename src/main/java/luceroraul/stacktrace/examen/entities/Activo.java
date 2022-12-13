@@ -6,8 +6,6 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "billetera_activos")
 public class Activo extends Identificable{
     @OneToOne
@@ -20,5 +18,16 @@ public class Activo extends Identificable{
     @JoinColumn(name = "billetera_id")
     private Billetera billetera;
 
+    public Activo() {
+        super(null);
+    }
+
+    @Builder
+    public Activo(Long id, MonedaCripto monedaCripto, Double cantidadAdquirida, Billetera billetera) {
+        super(id);
+        this.monedaCripto = monedaCripto;
+        this.cantidadAdquirida = cantidadAdquirida;
+        this.billetera = billetera;
+    }
 
 }

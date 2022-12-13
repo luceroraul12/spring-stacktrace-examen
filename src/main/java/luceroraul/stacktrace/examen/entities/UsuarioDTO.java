@@ -1,10 +1,11 @@
 package luceroraul.stacktrace.examen.entities;
 
 import lombok.Data;
-import luceroraul.stacktrace.examen.entities.BaseDTO;
-import luceroraul.stacktrace.examen.entities.Usuario;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class UsuarioDTO extends BaseDTO {
     private Integer DNI;
     private Usuario.Sexo sexo;

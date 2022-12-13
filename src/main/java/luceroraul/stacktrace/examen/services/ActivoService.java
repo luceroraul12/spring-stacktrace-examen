@@ -13,7 +13,8 @@ public class ActivoService extends ServiceABM<Activo, ActivoDTO>{
 
     @Override
     protected boolean cumpleCondicionDeCreacion(ActivoDTO elemento) {
-        return false;
+        Boolean existeEnSistema = repository.existsById(elemento.getId());
+        return !existeEnSistema;
     }
 
 

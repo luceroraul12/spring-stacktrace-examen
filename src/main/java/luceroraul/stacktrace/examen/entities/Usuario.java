@@ -1,8 +1,7 @@
 package luceroraul.stacktrace.examen.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +27,22 @@ public class Usuario extends Identificable {
 
     @OneToMany(mappedBy = "usuario", orphanRemoval = true)
     private List<Billetera> billeteras = new ArrayList<>();
+
+    public Usuario() {
+        super(null);
+    }
+
+    @Builder
+    public Usuario(Long id, Integer DNI, Sexo sexo, String nombre, String apellido, String email, String telefono, List<Billetera> billeteras) {
+        super(id);
+        this.DNI = DNI;
+        this.sexo = sexo;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.telefono = telefono;
+        this.billeteras = billeteras;
+    }
 
     public enum Sexo  {
         HOMBRE, MUJER, OTRO

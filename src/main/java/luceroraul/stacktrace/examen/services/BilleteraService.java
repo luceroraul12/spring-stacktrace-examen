@@ -32,7 +32,9 @@ public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
 
     @Override
     protected boolean cumpleCondicionDeCreacion(BilleteraDto elemento) {
-        return false;
+        boolean noExisteEnSistema = repository.existsById(elemento.getId());
+        boolean noTieneActivos = elemento.getActivos().size() == 0;
+        return noExisteEnSistema & noTieneActivos;
     }
 
     public ResponseEntity<BilleteraDto> consultarBilleteraUnica(Long id) {
@@ -53,7 +55,11 @@ public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
     }
 
     private Activo adaptarMonedaCripto(MonedaCripto moneda){
-        return new Activo(moneda, 0.0, billeteraSeleccionada);
+        return Activo.builder()
+                .monedaCripto(moneda)
+                .cantidadAdquirida(0.0)
+                .billetera(billeteraSeleccionada)
+                .build();
     }
 
 

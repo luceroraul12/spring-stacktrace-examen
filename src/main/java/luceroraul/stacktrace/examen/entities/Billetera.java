@@ -8,10 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 public class Billetera extends Identificable{
     @ManyToOne(optional = false)
     @JoinColumn(name = "usuario_id", nullable = false)
@@ -20,5 +17,16 @@ public class Billetera extends Identificable{
 
     @OneToMany(mappedBy = "billetera", orphanRemoval = true)
     private List<Activo> activos = new ArrayList<>();
+
+    public Billetera() {
+        super(null);
+    }
+
+    @Builder
+    public Billetera(Long id, Usuario usuario, List<Activo> activos) {
+        super(id);
+        this.usuario = usuario;
+        this.activos = activos;
+    }
 
 }

@@ -131,22 +131,23 @@ public class BilleteraActivoOperacionesService {
 
     private void almacenarDepositoYActivo(Activo resultado) {
         activoRepository.save(resultado);
-        operacionRepository.save(new Operacion(
-                LocalDateTime.now(),
-                OperacionTipo.DEPOSITO,
-                null,
-                resultado
-        ));
+        operacionRepository.save(
+                Operacion.builder()
+                        .momentoOperacion(LocalDateTime.now())
+                        .operacionTipo(OperacionTipo.DEPOSITO)
+                        .activoDestino(resultado)
+                        .build());
     }
 
     private void almacenarIntercambioYActivos(Map<String, Activo> map){
         map.forEach((key,data) -> activoRepository.save(data));
-        operacionRepository.save(new Operacion(
-                LocalDateTime.now(),
-                OperacionTipo.INTERCAMBIO,
-                map.get("activoReducido"),
-                map.get("activoIncrementado")
-        ));
+        operacionRepository.save(
+                Operacion.builder()
+                .momentoOperacion(LocalDateTime.now())
+                .operacionTipo(OperacionTipo.INTERCAMBIO)
+                .activoOrigen(map.get("activoReducido"))
+                .activoDestino(map.get("activoIncrementado"))
+                .build());
     }
 
 

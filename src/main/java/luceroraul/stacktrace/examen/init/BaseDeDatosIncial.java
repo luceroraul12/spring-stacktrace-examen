@@ -21,7 +21,13 @@ public class BaseDeDatosIncial {
     }
 
     private void cargarTablaMonedaCripto() {
-        monedaCriptoRepository.save(new MonedaCripto("BTC", 100.0));
-        monedaCriptoRepository.save(new MonedaCripto("ETH", 20.0));
+        monedaCriptoRepository.save(MonedaCripto.builder()
+                .nombre("BTC")
+                .relacionDolar(100.0)
+                .build());
+        monedaCriptoRepository.save(MonedaCripto.builder()
+                .nombre("ETH")
+                .relacionDolar(20.0)
+                .build());
     }
 }

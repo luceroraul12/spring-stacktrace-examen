@@ -4,9 +4,16 @@ import jakarta.persistence.Entity;
 import lombok.*;
 
 @Entity
-@NoArgsConstructor
 public class MonedaCripto extends Moneda{
-    public MonedaCripto(String nombre, Double relacionDolar) {
-        super(nombre, relacionDolar);
+
+
+    public MonedaCripto() {
+        super(null,null,null);
     }
+
+    @Builder
+    public MonedaCripto(Long id, String nombre, Double relacionDolar) {
+        super(id, nombre, relacionDolar);
+    }
+
 }

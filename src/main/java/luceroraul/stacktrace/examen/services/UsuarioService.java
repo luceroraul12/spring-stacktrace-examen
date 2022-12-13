@@ -21,15 +21,17 @@ public class UsuarioService extends ServiceABM<Usuario, UsuarioDTO>{
 
     @Override
     protected boolean cumpleCondicionDeCreacion(UsuarioDTO elemento) {
-        return false;
+        boolean contieneId = elemento.getId() != null;
+        boolean contieneNombre = elemento.getNombre() != null;
+        boolean contieneApellido = elemento.getApellido() != null;
+        return !contieneId & contieneApellido & contieneNombre;
     }
 
     @Override
     public ResponseEntity<Body> crear(UsuarioDTO elemento) {
         ResponseEntity<Body> respuesta = super.crear(elemento);
         billeteraRepository.save(
-                new Billetera(baseUtil.convertirToEntidad(elemento),
-                        null));
+                new Billetera(null,baseUtil.convertirToEntidad(elemento),null));
         return respuesta;
     }
 }

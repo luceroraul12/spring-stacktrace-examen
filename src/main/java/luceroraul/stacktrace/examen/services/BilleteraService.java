@@ -5,6 +5,7 @@ import luceroraul.stacktrace.examen.entities.BilleteraDto;
 import luceroraul.stacktrace.examen.entities.MonedaCripto;
 import luceroraul.stacktrace.examen.entities.Activo;
 import luceroraul.stacktrace.examen.repositories.BilleteraRepository;
+import luceroraul.stacktrace.examen.repositories.UsuarioRepository;
 import luceroraul.stacktrace.examen.responses.Respuesta;
 import luceroraul.stacktrace.examen.responses.Respuesta.Body;
 import luceroraul.stacktrace.examen.util.BilleteraUtil;
@@ -23,7 +24,8 @@ public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
     @Autowired
     BilleteraRepository billeteraRepository;
 
-    private Billetera billeteraSeleccionada;
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @Override
     protected Class<Billetera> recuperarClaseGenerica() {
@@ -32,9 +34,8 @@ public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
 
     @Override
     protected boolean cumpleCondicionDeCreacion(BilleteraDto elemento) {
-        boolean noExisteEnSistema = repository.existsById(elemento.getId());
-        boolean noTieneActivos = elemento.getActivos().size() == 0;
-        return noExisteEnSistema & noTieneActivos;
+        boolean esUsuarioValido = usuarioRepository.existsById(elemento.getUsuario().getId());
+        return esUsuarioValido;
     }
 
     public ResponseEntity<BilleteraDto> consultarBilleteraUnica(Long id) {
@@ -53,15 +54,6 @@ public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
         respuesta = new ResponseEntity<>(billeteras, HttpStatus.OK);
         return respuesta;
     }
-
-    private Activo adaptarMonedaCripto(MonedaCripto moneda){
-        return Activo.builder()
-                .monedaCripto(moneda)
-                .cantidadAdquirida(0.0)
-                .billetera(billeteraSeleccionada)
-                .build();
-    }
-
 
     public ResponseEntity<Body> consultarSaldoPorBilletera(Long id) {
         Respuesta resultado;

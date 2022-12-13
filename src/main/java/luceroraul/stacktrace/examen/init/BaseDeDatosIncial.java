@@ -1,6 +1,6 @@
 package luceroraul.stacktrace.examen.init;
 
-import jakarta.annotation.PostConstruct;
+import javax.annotation.PostConstruct;
 import luceroraul.stacktrace.examen.entities.*;
 import luceroraul.stacktrace.examen.repositories.MonedaCriptoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

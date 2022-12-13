@@ -1,6 +1,6 @@
 package luceroraul.stacktrace.examen.entities;
 
-import jakarta.persistence.Column;
+import javax.persistence.Column;
 
 public class MonedaCriptoDTO extends BaseDTO{
     private String nombre;

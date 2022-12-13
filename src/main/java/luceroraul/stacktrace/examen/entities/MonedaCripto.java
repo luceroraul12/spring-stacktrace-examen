@@ -1,6 +1,6 @@
 package luceroraul.stacktrace.examen.entities;
 
-import jakarta.persistence.Entity;
+import javax.persistence.Entity;
 import lombok.*;
 
 @Entity

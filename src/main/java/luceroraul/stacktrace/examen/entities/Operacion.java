@@ -1,6 +1,6 @@
 package luceroraul.stacktrace.examen.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;

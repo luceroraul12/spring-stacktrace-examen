@@ -23,6 +23,9 @@ public class Operacion extends Identificable {
     @JoinColumn(name = "activo_destino_id")
     private Activo activoDestino;
 
+    @Column(name = "cantidad_operada")
+    private Double cantidadOperada;
+
     public Operacion() {
         super(null);
     }
@@ -32,11 +35,19 @@ public class Operacion extends Identificable {
     }
 
     @Builder
-    public Operacion(Long id, LocalDateTime momentoOperacion, OperacionTipo operacionTipo, Activo activoOrigen, Activo activoDestino) {
+    public Operacion(Long id, LocalDateTime momentoOperacion, OperacionTipo operacionTipo, Activo activoOrigen, Activo activoDestino, Double cantidadOperada) {
         super(id);
         this.momentoOperacion = momentoOperacion;
         this.operacionTipo = operacionTipo;
         this.activoOrigen = activoOrigen;
         this.activoDestino = activoDestino;
+        this.cantidadOperada = cantidadOperada;
     }
+    //    public Operacion(Long id, LocalDateTime momentoOperacion, OperacionTipo operacionTipo, Activo activoOrigen, Activo activoDestino) {
+//        super(id);
+//        this.momentoOperacion = momentoOperacion;
+//        this.operacionTipo = operacionTipo;
+//        this.activoOrigen = activoOrigen;
+//        this.activoDestino = activoDestino;
+//    }
 }

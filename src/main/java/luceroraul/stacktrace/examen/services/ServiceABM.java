@@ -22,7 +22,7 @@ public abstract class ServiceABM<Entidad extends Identificable, ClaseDTO extends
     public ResponseEntity<Body> crear(ClaseDTO elemento){
         Respuesta respuesta;
         if(!cumpleCondicionDeCreacion(elemento)){
-            respuesta = new Respuesta(null, "el id del "+elemento.getClass().getSimpleName()+" ya existe", HttpStatus.ACCEPTED);
+            respuesta = new Respuesta(null, "error al crear elemento", HttpStatus.ACCEPTED);
         } else {
             Long id = repository.save(baseUtil.convertirToEntidad(elemento)).getId();
             elemento.setId(id);

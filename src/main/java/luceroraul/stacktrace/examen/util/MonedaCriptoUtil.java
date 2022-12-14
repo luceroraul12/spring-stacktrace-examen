@@ -26,6 +26,7 @@ public class MonedaCriptoUtil extends BaseUtil<MonedaCripto, MonedaCriptoDTO>{
     @Override
     public MonedaCripto fusionarDTOyEntidad(MonedaCripto elementoAlmacenado, MonedaCriptoDTO elementoParcial) {
         return MonedaCripto.builder()
+                .id(elementoAlmacenado.getId())
                 .nombre(elegirParametroNoNull(elementoAlmacenado.getNombre(), elementoParcial.getNombre()))
                 .relacionDolar(elegirParametroNoNull(elementoAlmacenado.getRelacionDolar(), elementoParcial.getRelacionPeso()))
                 .build();

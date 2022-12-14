@@ -57,6 +57,9 @@ public class BilleteraActivoOperacionesService {
         Activo activoDestino = activoRepository
                 .findById(peticion.getIdActivoDestino())
                 .orElseThrow();
+        if (peticion.getCantidadOperable() < 0){
+            throw new Exception("cantidad a depositar negativa");
+        }
 
         resultado = billeteraOperacionUtil.realizarIncrementoMismaUnidad(
                 activoDestino,
@@ -72,7 +75,7 @@ public class BilleteraActivoOperacionesService {
      * @return
      * @throws Exception
      */
-    public ResponseEntity<Body> depositarResultadoDto(PeticionDeposito peticion) throws Exception {
+    public ResponseEntity<Body> depositarResultadoDto(PeticionDeposito peticion) {
         Respuesta respuesta;
         ActivoDTO resultado;
         try {

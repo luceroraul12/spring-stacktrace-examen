@@ -30,9 +30,15 @@ public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    /**
+     * Para que una {@link Billetera} sea modificable tiene que cumplir:<br>
+     * -cumplir con {@link BilleteraService#cumpleCondicionDeCreacion(BilleteraDto)}<br>
+     * @param elementoParcial informacion completa o parcial a para modificar
+     * @return
+     */
     @Override
-    protected Class<Billetera> recuperarClaseGenerica() {
-        return Billetera.class;
+    protected boolean cumpleCondicionDeModificacion(BilleteraDto elementoParcial) {
+        return cumpleCondicionDeCreacion(elementoParcial);
     }
 
     /**

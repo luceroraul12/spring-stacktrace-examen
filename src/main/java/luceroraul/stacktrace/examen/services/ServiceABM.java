@@ -82,25 +82,38 @@ public abstract class ServiceABM<Entidad extends Identificable, ClaseDTO extends
         Respuesta respuesta;
         Long id = elementoParcial.getId();
 
-        if (repository.existsById(id)){
-            Entidad elementoAlmacenado = repository.findById(id).get();
-            Entidad elementoFusionado = baseUtil.fusionarDTOyEntidad(elementoAlmacenado, elementoParcial);
-            elementoAlmacenado = repository.save(elementoFusionado);
+        try {
+            //cuando el id no existe, en lugar de tira retornar error, tira una excepcion.
 
-            respuesta = new Respuesta(
-                    baseUtil.convertirToDTO(elementoAlmacenado),
-                    "Elemento modificado con exito",
-                    HttpStatus.OK);
-        } else {
+            if(cumpleCondicionDeModificacion(elementoParcial) & repository.existsById(id)){
+                Entidad elementoAlmacenado = repository.findById(id).get();
+                Entidad elementoFusionado = baseUtil.fusionarDTOyEntidad(elementoAlmacenado, elementoParcial);
+                elementoAlmacenado = repository.save(elementoFusionado);
+                respuesta = new Respuesta(
+                        baseUtil.convertirToDTO(elementoAlmacenado),
+                        "Elemento modificado con exito",
+                        HttpStatus.OK);
+            } else {
+                respuesta = new Respuesta(
+                        null,
+                        "Error al modificar, no cumple con las condiciones de modificacion.",
+                        HttpStatus.OK);
+            }
+        } catch (Exception e) {
             respuesta = new Respuesta(
                     null,
-                    "Error al modificar, no existe elemento con dicho id",
+                    "Error al modificar, problemas con el id seleccionado",
                     HttpStatus.ACCEPTED);
         }
         return respuesta.getResponseEntity();
     }
 
-    protected abstract Class<Entidad> recuperarClaseGenerica();
+    /**
+     * Metodo abstract a implementar por las implementaciones donde se verifica las condiciones para ver si es modificable o no.
+     * @param elementoParcial informacion completa o parcial a para modificar
+     * @return  si cumple o no cumple
+     */
+    protected abstract boolean cumpleCondicionDeModificacion(ClaseDTO elementoParcial);
 
     /**
      * Metodo abstracto a implementar por las implementaciones donde se debe verificar si la informacion de entrada es valida para ser persistida en la base de datos.

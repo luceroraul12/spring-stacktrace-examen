@@ -18,9 +18,19 @@ public class ActivoService extends ServiceABM<Activo, ActivoDTO>{
 
     @Autowired
     ActivoRepository activoRepository;
+
+    /**
+     * Para que un {@link Activo} sea modificable debe cumplir:<br>
+     * -lo mismo que {@link ActivoService#cumpleCondicionDeCreacion(ActivoDTO)}<br>
+     * -la cantidad almacenada no puede ser negativa
+     * @param elementoParcial
+     * @return
+     */
     @Override
-    protected Class<Activo> recuperarClaseGenerica() {
-        return Activo.class;
+    protected boolean cumpleCondicionDeModificacion(ActivoDTO elementoParcial) {
+        boolean cumpleCreacion = cumpleCondicionDeCreacion(elementoParcial);
+        boolean cumpleCantidad = elementoParcial.getCantidadAdquirida() >= 0 |  elementoParcial.getCantidadAdquirida() == null;
+        return cumpleCreacion & cumpleCantidad;
     }
 
     /**

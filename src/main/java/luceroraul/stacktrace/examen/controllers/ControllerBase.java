@@ -31,11 +31,11 @@ public abstract class ControllerBase<Entidad extends Identificable, ClaseDTO ext
     private ServiceABM<Entidad, ClaseDTO> serviceABM;
 
     /**
-     * Endpoint para realizar la creacion de un elemento
+     * Endpoint para realizar la creacion de un elemento. No requiere id
      * @param elemento dto con informacion necesaria para crear
      * @return Body
      */
-    @Operation(summary = "Da de alta un elemento de dicho controller")
+    @Operation(summary = "Da de alta un elemento de dicho controllerno. No requiere id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "creacion realizada con exito",
                     content = { @Content(mediaType = "application/json",

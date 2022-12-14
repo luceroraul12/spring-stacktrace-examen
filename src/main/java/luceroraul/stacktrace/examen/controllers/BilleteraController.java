@@ -25,6 +25,18 @@ public class BilleteraController extends ControllerBase<Billetera, BilleteraDto>
     @Autowired
     BilleteraService billeteraService;
 
+    @Operation(summary = "Da de alta un elemento de dicho controllerno. Requiere usuario.id")
+    @Override
+    public ResponseEntity<Body> crear(BilleteraDto elemento) {
+        return super.crear(elemento);
+    }
+
+    @Operation(summary = "permite modificar un elemento de dicho controller. requiere billetera.id y usuario.id")
+    @Override
+    public ResponseEntity<Body> modificar(BilleteraDto elemento) {
+        return super.modificar(elemento);
+    }
+
     /**
      * Endpoint para consultar todos los {@link luceroraul.stacktrace.examen.entities.Activo} de una {@link Billetera}
      * @param id de billetera

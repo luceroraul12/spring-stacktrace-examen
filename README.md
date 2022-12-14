@@ -7,8 +7,8 @@ Requerimientos para probar:<br>
     </li>
     <li>Crear una base de datos con el nombre: <b>stacktrace</b></li>
 </ol>
-
-En la siguiente figura se muestra el digrama de tablas elaborado:<br>
+<h1> Respecto a base de datos </h1>
+En la siguiente figura se muestra el digrama de tablas elaborado:<br> 
 ![image](https://user-images.githubusercontent.com/106817372/207612382-333d8b3c-7e4b-44e5-a805-407b53a35313.png)
 
 En el diagrama se muestran: <br>
@@ -26,7 +26,7 @@ En el diagrama se muestran: <br>
     </li>
 </ol>
 
-Respecto al backend: <br>
+<h1> Respecto al backend </h1>
 url Swagger: <a href="http://localhost:8080/swagger-ui/index.html">swagger</a>
 
 Hay dos tipo tipo de Servicios,Controladores: <br>
@@ -41,7 +41,7 @@ Hay dos tipo tipo de Servicios,Controladores: <br>
     </li>
 </ol>
 
-Paso logico de utilizacion: <br>
+<h1> Respecto a la logica de utilizacion </h1>
 <ol>
     <li>ABM de Divisas (opcional debido a que incluyo dos por defecto: ETH y BTC)</li>
     <li>ABM de Usuario(automaticamente se crea su propia billetera)</li>

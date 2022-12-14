@@ -6,7 +6,7 @@ Requerimientos para probar:<br>
         <ol>username: stacktrace</ol>
         <ol>password: stacktrace</ol>
     </li>
-    <li>Crear una base de datos con el nombre: <b>stacktrace</b></li>
+    <li>Crear una base de datos con el nombre: <b>stacktrace</b> en el puerto <b> 5432 </b></li>
 </ol>
 <h1> Respecto a base de datos </h1>
 En la siguiente figura se muestra el digrama de tablas elaborado: <a href="https://user-images.githubusercontent.com/106817372/207612382-333d8b3c-7e4b-44e5-a805-407b53a35313.png">imagen de base de datos</a><br> 

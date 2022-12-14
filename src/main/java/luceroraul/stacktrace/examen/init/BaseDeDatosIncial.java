@@ -6,6 +6,10 @@ import luceroraul.stacktrace.examen.repositories.MonedaCriptoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Clase de configuarcion para la base de datos.
+ * Lo unico que hace es cargar las tablas con datos iniciales. Por el momento, solo se cargan 2 tipos de {@link MonedaCripto}
+ */
 @Configuration
 public class BaseDeDatosIncial {
 
@@ -13,6 +17,9 @@ public class BaseDeDatosIncial {
     MonedaCriptoRepository monedaCriptoRepository;
 
 
+    /**
+     * Verifica que no existan datos con dicha tabla, en caso de estar vacia, carga valores por defecto.
+     */
     @PostConstruct
     public void cargarBaseDeDatos(){
         if (monedaCriptoRepository.count() == 0){
@@ -20,6 +27,9 @@ public class BaseDeDatosIncial {
         }
     }
 
+    /**
+     * Carga la tabla de {@link MonedaCripto} con dos tipos, BTC y ETH con valores de ejemplo
+     */
     private void cargarTablaMonedaCripto() {
         monedaCriptoRepository.save(MonedaCripto.builder()
                 .nombre("BTC")

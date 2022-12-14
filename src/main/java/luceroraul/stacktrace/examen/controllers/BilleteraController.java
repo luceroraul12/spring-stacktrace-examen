@@ -19,21 +19,41 @@ public class BilleteraController extends ControllerBase<Billetera, BilleteraDto>
     @Autowired
     BilleteraService billeteraService;
 
-//    @GetMapping("consulta")
-//    public ResponseEntity<BilleteraDto> consultar(@RequestBody Map<String,Object> pedido){
-//        return billeteraService.consultarBilleteraUnica(Long.valueOf(String.valueOf(pedido.get("id"))));
-//    }
-//
-//    @GetMapping("consulta-usuario")
-//    public ResponseEntity<List<BilleteraDto>> consultarPorIdUsuario(@RequestBody Map<String, Object> pedido){
-//        return billeteraService.consultarBilleterasPorUsuario(Long.parseLong(String.valueOf(pedido.get("id"))));
-//    }
+    /**
+     * Endpoint para consultar todos los {@link luceroraul.stacktrace.examen.entities.Activo} de una {@link Billetera}
+     * @param id de billetera
+     * @return arreglo de activos
+     */
+    @GetMapping("consulta-billetera")
+    public ResponseEntity<BilleteraDto> consultar(@RequestParam(value = "id-billetera") Long id ){
+        return billeteraService.consultarBilleteraUnica(id);
+    }
 
+    /**
+     * Endpoint para consultar todas las  {@link Billetera} de un {@link luceroraul.stacktrace.examen.entities.Usuario}
+     * @param id del usuario
+     * @return arreglo de billeteras
+     */
+    @GetMapping("consulta-usuario")
+    public ResponseEntity<List<BilleteraDto>> consultarPorIdUsuario(@RequestParam(value = "id-usuario") Long id ){
+        return billeteraService.consultarBilleterasPorUsuario(id);
+    }
+
+    /**
+     * Endpoint para obtener el equivalente de una billetera
+     * @param idBilletera
+     * @return equivalencia activos en pesos
+     */
     @GetMapping("consulta-saldo-billetera")
     public ResponseEntity<Body> consultarSaldoPorBilletera(@RequestParam(value = "id-billetera") Long idBilletera){
         return billeteraService.consultarSaldoPorBilletera(idBilletera);
     }
 
+    /**
+     * Endpoint para obtener el equivalente de un usuario
+     * @param idUsuario
+     * @return equivalencia de billeteras en pesos
+     */
     @GetMapping("consulta-saldo-usuario")
     public ResponseEntity<Body> consultarSaldoPorUsuario(@RequestParam(value = "id-usuario") Long idUsuario){
         return billeteraService.consultarSaldoPorUsuario(idUsuario);

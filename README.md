@@ -1,6 +1,7 @@
 Requerimientos para probar:<br>
 <ol>
     <li>Tener instalado PostgreSQL, en mi caso utilice PostgreSQL 14</li>
+    <li>Tener instalado JAVA JDK 17. En mi caso tengo instalado y seteado IntellIJ el proyecto para utilizar Temurin-17 (JAVA 17 de eclipse).
     <li>Crear un usuario con todos los privilegios y los siguientes parametros
         <ol>username: stacktrace</ol>
         <ol>password: stacktrace</ol>
@@ -8,8 +9,7 @@ Requerimientos para probar:<br>
     <li>Crear una base de datos con el nombre: <b>stacktrace</b></li>
 </ol>
 <h1> Respecto a base de datos </h1>
-En la siguiente figura se muestra el digrama de tablas elaborado:<br> 
-![image](https://user-images.githubusercontent.com/106817372/207612382-333d8b3c-7e4b-44e5-a805-407b53a35313.png)
+En la siguiente figura se muestra el digrama de tablas elaborado: <a href="https://user-images.githubusercontent.com/106817372/207612382-333d8b3c-7e4b-44e5-a805-407b53a35313.png">imagen de base de datos</a><br> 
 
 En el diagrama se muestran: <br>
 <ol>
@@ -17,7 +17,8 @@ En el diagrama se muestran: <br>
     <li><b>billetera</b>: Es una tabla encargada de relacionar un conjunto de activos por cada registro de billetera que a su vez relaciona a un usuario</li>
     <li><b>billetera_activos</b>: Son divisas con cantidades adquirida  y que estan relacionadas con las billeteras. Una billetera no puede tener varios registro de una misma divisa</li>
     <li><b>moneda_cripto</b>: Son el conjunto de divisas que se pueden usar al momento de registrar billetera_activos. No pueden existir divisas con mismo nombre ni tampoco con relacion nula<br>
-        valore por defecto:   ![image](https://user-images.githubusercontent.com/106817372/207618625-b8b37ad7-1b51-4ccd-b094-6a5e01bac6c6.png)
+        valores por defecto:
+        <a href="https://user-images.githubusercontent.com/106817372/207618625-b8b37ad7-1b51-4ccd-b094-6a5e01bac6c6.png">monedas por defecto</a>
     </li>
     <li><b>operacion</b>: Son los registros que se realizan de manera automatica cuando se lleva a cabo una operacion como <b>DEPOSITO</b> o <b>INTERCAMBIO</b>.<br>
         Como mi estructura de tablas es un poco diferente a la dicha en el enunciado, en lugar de guardar las billeteras, almacena los <b>billetera_activos</b> involucrados(origen-destino).<br>

@@ -1,5 +1,6 @@
 package luceroraul.stacktrace.examen.entities;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 public class BilleteraDto extends BaseDTO implements Serializable {
+    @Schema(description = "debe contener id")
     private UsuarioDTO usuario;
     private List<ActivoDTO> activos;
 

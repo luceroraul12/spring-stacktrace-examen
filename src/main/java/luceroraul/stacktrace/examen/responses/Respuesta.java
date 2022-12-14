@@ -1,5 +1,6 @@
 package luceroraul.stacktrace.examen.responses;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,6 +44,7 @@ public class Respuesta{
          * - clases DTO
          * - null
          */
+        @Schema(description = "Es de tipo Object, este atributo puede ser tomado como un objeto de clase DTO segun corresponda o null para casos con errores.")
         private Object body;
         /**
          * Mensaje que indica que paso al recuperar la informacion, puede ser afirmativo o negativo

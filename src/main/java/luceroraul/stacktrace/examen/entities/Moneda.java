@@ -10,12 +10,12 @@ import lombok.*;
 public abstract class Moneda extends Identificable{
     @Column(name = "nombre", unique = true)
     private String nombre;
-    @Column(name = "relacion_dolar")
-    private Double relacionDolar;
+    @Column(name = "relacion_pesos")
+    private Double relacionPesos;
 
-    public Moneda(Long id, String nombre, Double relacionDolar) {
+    public Moneda(Long id, String nombre, Double relacionPesos) {
         super(id);
         this.nombre = nombre;
-        this.relacionDolar = relacionDolar;
+        this.relacionPesos = relacionPesos;
     }
 }

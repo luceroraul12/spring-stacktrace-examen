@@ -12,8 +12,8 @@ public class MonedaCripto extends Moneda{
     }
 
     @Builder
-    public MonedaCripto(Long id, String nombre, Double relacionDolar) {
-        super(id, nombre, relacionDolar);
+    public MonedaCripto(Long id, String nombre, Double relacionPesos) {
+        super(id, nombre, relacionPesos);
     }
 
 }

@@ -11,7 +11,7 @@ public class MonedaCriptoUtil extends BaseUtil<MonedaCripto, MonedaCriptoDTO>{
         return new MonedaCriptoDTO(
                 elemento.getId(),
                 elemento.getNombre(),
-                elemento.getRelacionDolar()
+                elemento.getRelacionPesos()
         );
     }
 
@@ -19,7 +19,7 @@ public class MonedaCriptoUtil extends BaseUtil<MonedaCripto, MonedaCriptoDTO>{
     public MonedaCripto convertirToEntidad(MonedaCriptoDTO elemento) {
         return MonedaCripto.builder()
                 .nombre(elemento.getNombre())
-                .relacionDolar(elemento.getRelacionPeso())
+                .relacionPesos(elemento.getRelacionPeso())
                 .build();
     }
 
@@ -28,7 +28,7 @@ public class MonedaCriptoUtil extends BaseUtil<MonedaCripto, MonedaCriptoDTO>{
         return MonedaCripto.builder()
                 .id(elementoAlmacenado.getId())
                 .nombre(elegirParametroNoNull(elementoAlmacenado.getNombre(), elementoParcial.getNombre()))
-                .relacionDolar(elegirParametroNoNull(elementoAlmacenado.getRelacionDolar(), elementoParcial.getRelacionPeso()))
+                .relacionPesos(elegirParametroNoNull(elementoAlmacenado.getRelacionPesos(), elementoParcial.getRelacionPeso()))
                 .build();
     }
 }

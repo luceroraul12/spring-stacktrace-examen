@@ -28,8 +28,8 @@ public class BilleteraOperacionUtil {
      * @return
      */
     public Activo realizarIncrementoDiferentesUnidades(Activo activoOrigen, Activo activoDestino, Double cantidadParaIncrementarOriginal){
-        Double precioUnitarioMonedaOrigenEnPesos = activoOrigen.getMonedaCripto().getRelacionDolar();
-        Double precioUnitarioMonedaDestinoEnPesos = activoDestino.getMonedaCripto().getRelacionDolar();
+        Double precioUnitarioMonedaOrigenEnPesos = activoOrigen.getMonedaCripto().getRelacionPesos();
+        Double precioUnitarioMonedaDestinoEnPesos = activoDestino.getMonedaCripto().getRelacionPesos();
         Double cantidadParaIncrementarEnPesos = precioUnitarioMonedaOrigenEnPesos * cantidadParaIncrementarOriginal;
         Double cantidadParaIncrementarEnMonedaDestino = cantidadParaIncrementarEnPesos / precioUnitarioMonedaDestinoEnPesos;
 

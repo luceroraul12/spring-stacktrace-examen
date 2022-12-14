@@ -30,7 +30,7 @@ public class MonedaCriptoService extends ServiceABM<MonedaCripto, MonedaCriptoDT
     /**
      * Para que sea una moneda valida para la creacion debe cumplir:<br>
      * -{@link MonedaCripto#getNombre()} no existente en tabla
-     * -{@link MonedaCripto#getRelacionDolar()} nunca negativa ni nula
+     * -{@link MonedaCripto#getRelacionPesos()} nunca negativa ni nula
      * @param elemento objeto de entrada
      * @return
      */

@@ -33,11 +33,11 @@ public class BaseDeDatosIncial {
     private void cargarTablaMonedaCripto() {
         monedaCriptoRepository.save(MonedaCripto.builder()
                 .nombre("BTC")
-                .relacionDolar(100.0)
+                .relacionPesos(100.0)
                 .build());
         monedaCriptoRepository.save(MonedaCripto.builder()
                 .nombre("ETH")
-                .relacionDolar(20.0)
+                .relacionPesos(20.0)
                 .build());
     }
 }

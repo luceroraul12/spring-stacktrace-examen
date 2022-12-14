@@ -35,7 +35,7 @@ public class BilleteraUtil extends BaseUtil<Billetera, BilleteraDto>{
      * @return resultado en pesos
      */
     public Double obtenerEquivalenciaActivoEnPesos(Activo activo){
-        return activo.getCantidadAdquirida() * activo.getMonedaCripto().getRelacionDolar();
+        return activo.getCantidadAdquirida() * activo.getMonedaCripto().getRelacionPesos();
     }
 
     /**

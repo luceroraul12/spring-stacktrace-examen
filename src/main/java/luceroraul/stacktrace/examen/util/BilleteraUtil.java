@@ -16,38 +16,34 @@ public class BilleteraUtil extends BaseUtil<Billetera, BilleteraDto>{
     @Autowired
     UsuarioUtil usuarioUtil;
 
+    /**
+     * Convierte un conjunto de Billeteras a DTO
+     * @param billeteras extraidas de la base de dato
+     * @return Billeteras convertidas a DTO
+     */
     public List<BilleteraDto> convertirVariasbilleterasaDTO(List<Billetera> billeteras){
         return billeteras
                 .stream()
-                .map(this::convertirBilleteraaDTO)
+                .map(this::convertirToDTO)
                 .collect(Collectors.toList());
     }
 
-    public BilleteraDto convertirBilleteraaDTO(Billetera billetera){
-        return new BilleteraDto(
-                billetera.getId(),
-                usuarioUtil.convertirToDTO(billetera.getUsuario()),
-                billetera.getActivos()
-                        .stream()
-                        .map(activo -> activoUtil.convertirToDTO(activo))
-                        .collect(Collectors.toList())
-        );
-    }
-
-//    public ActivoDTO convertirActivoaDTO(Activo activo){
-//        return new ActivoDTO(
-//                activo.getBilletera().getId(),
-//                activo.getId(),
-//                activo.getMonedaCripto().getId(),
-//                activo.getMonedaCripto().getNombre(),
-//                activo.getCantidadAdquirida()
-//        );
-//    }
-
+    /**
+     * Realiza la conversion de la cantidad de dicha moneda a pesos.
+     * multiplica la cantidad por el precio unitario de la moneda
+     * @param activo extraido de la base de datos
+     * @return resultado en pesos
+     */
     public Double obtenerEquivalenciaActivoEnPesos(Activo activo){
         return activo.getCantidadAdquirida() * activo.getMonedaCripto().getRelacionDolar();
     }
 
+    /**
+     * Realiza la conversion en pesos de todas las billeteras.
+     * Tener en cuenta {@link BilleteraUtil#obtenerEquivalenciaActivoEnPesos(Activo)}
+     * @param billeteras extraidas de la base de datos
+     * @return resultado en pesos
+     */
     public Double obtenerSaldoBilleteraEnPesos(List<Billetera> billeteras){
         Double resultado;
         try {

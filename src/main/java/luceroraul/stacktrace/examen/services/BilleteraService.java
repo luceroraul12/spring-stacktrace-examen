@@ -52,7 +52,7 @@ public class BilleteraService extends ServiceABM<Billetera, BilleteraDto>{
      * @return
      */
     public ResponseEntity<BilleteraDto> consultarBilleteraUnica(Long id) {
-        BilleteraDto billeteraDto = billeteraUtil.convertirBilleteraaDTO(billeteraRepository.findById(id).get());
+        BilleteraDto billeteraDto = billeteraUtil.convertirToDTO(billeteraRepository.findById(id).get());
 
         ResponseEntity<BilleteraDto> respuesta;
         respuesta = new ResponseEntity<>(billeteraDto, HttpStatus.OK);

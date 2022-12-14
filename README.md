@@ -28,6 +28,7 @@ En el diagrama se muestran: <br>
 </ol>
 
 <h1> Respecto al backend </h1>
+Para correr el proyecto, se debe ejecutar ExamenApplication.java.
 url Swagger: <a href="http://localhost:8080/swagger-ui/index.html">swagger</a>
 
 Hay dos tipo tipo de Servicios,Controladores: <br>

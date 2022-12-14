@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("billeteras/activos")
 public class ActivoController extends ControllerBase<Activo, ActivoDTO> {
 
+    /**
+     * @param elemento dto con informacion necesaria para crear. seteo cantidad 0.0 y id nulo
+     * @return
+     */
     @Override
     public ResponseEntity<Respuesta.Body> crear(@RequestBody ActivoDTO elemento) {
         elemento.setCantidadAdquirida(0.0);

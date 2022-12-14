@@ -40,7 +40,7 @@ public class BilleteraOperacionController implements OperacionesDivisasEnBillete
         return billeteraActivoOperacionesService.depositarResultadoDto(peticion);
     }
 
-    @Operation(summary = "Para hacer intercambio de monedas entre Activos")
+    @Operation(summary = "Para hacer intercambio de monedas entre Activos, la cantidad a intercambiar se encuentra en la misma moneda que el Activo de origen")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Intercambio realizado con exito",
                     content = { @Content(mediaType = "application/json",
